@@ -50,13 +50,21 @@ export default function NouveauRapportPage() {
   }
 
   return (
-    <div className="max-w-xl">
-      <div className="mb-8">
-        <h1 className="text-2xl font-medium text-white">Nouveau rapport d&apos;observation</h1>
-        <p className="text-white/40 text-sm mt-1">Rédiger une note de terrain ou un compte-rendu magizoologique</p>
+    <div className="p-8 max-w-2xl mx-auto w-full">
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h1 className="text-xl font-semibold text-white">Nouveau rapport d&apos;observation</h1>
+          <p className="text-white/40 text-xs mt-0.5">Rédiger une note de terrain ou un compte-rendu magizoologique</p>
+        </div>
+        <button
+          onClick={() => router.back()}
+          className="text-xs text-white/50 hover:text-white px-3 py-1.5 rounded-lg border border-white/10 hover:bg-white/5 transition-colors"
+        >
+          ← Retour
+        </button>
       </div>
 
-      <div className="bg-[#16162a] border border-white/10 rounded-xl p-6 space-y-5">
+      <div className="bg-[#16162a] border border-white/10 rounded-xl p-6 shadow-xl space-y-4">
         <div>
           <label className="block text-xs text-white/40 mb-1.5">Titre du rapport</label>
           <input

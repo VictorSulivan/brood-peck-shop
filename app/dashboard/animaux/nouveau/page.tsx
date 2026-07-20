@@ -47,13 +47,21 @@ export default function NouvelAnimalPage() {
   }
 
   return (
-    <div className="max-w-lg">
-      <div className="mb-8">
-        <h1 className="text-2xl font-medium text-white">Enregistrer un animal</h1>
-        <p className="text-white/40 text-sm mt-1">Ajouter une créature au cheptel de l&apos;entreprise</p>
+    <div className="p-8 max-w-2xl mx-auto w-full">
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h1 className="text-xl font-semibold text-white">Enregistrer un animal</h1>
+          <p className="text-white/40 text-xs mt-0.5">Ajouter une créature au cheptel de l&apos;entreprise</p>
+        </div>
+        <button
+          onClick={() => router.back()}
+          className="text-xs text-white/50 hover:text-white px-3 py-1.5 rounded-lg border border-white/10 hover:bg-white/5 transition-colors"
+        >
+          ← Retour
+        </button>
       </div>
 
-      <div className="bg-[#16162a] border border-white/10 rounded-xl p-6 space-y-5">
+      <div className="bg-[#16162a] border border-white/10 rounded-xl p-6 shadow-xl space-y-4">
         <div>
           <label className="block text-xs text-white/40 mb-1.5">Nom / Surnom de l&apos;animal</label>
           <input
@@ -78,16 +86,14 @@ export default function NouvelAnimalPage() {
           </select>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs text-white/40 mb-1.5">Santé</label>
-            <input
-              placeholder="ex: Bonne, Blessée..."
-              value={form.sante}
-              onChange={(e) => set("sante", e.target.value)}
-              className="w-full bg-[#0f0f1a] border border-white/10 rounded-lg px-3 py-2 text-white text-sm"
-            />
-          </div>
+        <div>
+          <label className="block text-xs text-white/40 mb-1.5">Santé</label>
+          <input
+            placeholder="ex: Bonne, Blessée..."
+            value={form.sante}
+            onChange={(e) => set("sante", e.target.value)}
+            className="w-full bg-[#0f0f1a] border border-white/10 rounded-lg px-3 py-2 text-white text-sm"
+          />
         </div>
 
         {error && <p className="text-red-400 text-sm">{error}</p>}
