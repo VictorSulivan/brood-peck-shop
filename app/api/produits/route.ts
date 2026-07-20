@@ -17,14 +17,25 @@ export async function POST(req: Request) {
   if (!session) return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
 
   const body = await req.json();
-  const { nom, categorie, stock, prixAchat, prixVente, description } = body;
+const { nom, categorie, stock, prixAchat, prixVente, description, origine, animalId } = body;
 
   if (!nom || !categorie || prixAchat == null || prixVente == null) {
     return NextResponse.json({ error: "Champs manquants" }, { status: 400 });
   }
 
-  const produit = await prisma.produit.create({
-    data: { nom, categorie, stock: stock ?? 0, prixAchat, prixVente, description },
-  });
+  // Dans app/api/produits/route.ts (POST)
+
+const produit = await prisma.produit.create({
+  data: { 
+    nom, 
+    categorie, 
+    stock: stock ?? 0, 
+    prixAchat, 
+    prixVente, 
+    description,
+    origine: origine ?? "recolte",
+    animalId: animalId ? parseInt(animalId) : null
+  },
+});
   return NextResponse.json(produit, { status: 201 });
 }

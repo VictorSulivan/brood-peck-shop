@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
 import pegaseLogo from "./../../../public/pegase.png";
+
 const NAV = [
   { href: "/dashboard",                 label: "Dashboard",  icon: "⬡" },
   { href: "/dashboard/ventes",          label: "Ventes",     icon: "💰" },
@@ -12,6 +13,12 @@ const NAV = [
   { href: "/dashboard/clients",         label: "Clients",    icon: "👥" },
   { href: "/dashboard/gringotts",       label: "Gringotts",  icon: "🏦" },
   { href: "/dashboard/calendrier",      label: "Calendrier", icon: "📅" },
+];
+
+const MAGIZOOLOGY_NAV = [
+  { href: "/dashboard/bestiaire",       label: "Bestiaire",  icon: "📖" },
+  { href: "/dashboard/animaux",         label: "Cheptel",    icon: "🐾" },
+  { href: "/dashboard/rapports",        label: "Rapports",   icon: "📝" },
 ];
 
 const RH_NAV = [
@@ -29,7 +36,7 @@ type Props = {
 
 function NavLink({ href, label, icon }: { href: string; label: string; icon: string }) {
   const pathname = usePathname();
-  const active = pathname === href;
+  const active = pathname === href || (href !== "/dashboard" && pathname.startsWith(href));
   return (
     <Link
       href={href}
@@ -59,9 +66,9 @@ export default function Sidebar({ user }: Props) {
       <div className="flex items-center gap-3 px-5 py-5 border-b border-white/10">
         <div className="w-8 h-8 bg-[#2a2250] border border-[#3d3580] rounded-lg flex items-center justify-center overflow-hidden">
           <Image 
-            src={pegaseLogo} // On passe la variable importée, sans guillemets
+            src={pegaseLogo} 
             alt="Logo Bière Comptabilité" 
-            className="w-6 h-6 object-contain" // Plus besoin de width/height fixes ici, Next les calcule automatiquement avec l'import direct
+            className="w-6 h-6 object-contain"
           />
         </div>
         <div>
@@ -74,6 +81,13 @@ export default function Sidebar({ user }: Props) {
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
         {NAV.map((item) => <NavLink key={item.href} {...item} />)}
 
+        {/* Section Magizoologie */}
+        <div className="pt-3 pb-1 px-3">
+          <p className="text-white/20 text-xs uppercase tracking-widest">Magizoologie</p>
+        </div>
+        {MAGIZOOLOGY_NAV.map((item) => <NavLink key={item.href} {...item} />)}
+
+        {/* Section RH */}
         <div className="pt-3 pb-1 px-3">
           <p className="text-white/20 text-xs uppercase tracking-widest">RH</p>
         </div>
@@ -81,7 +95,7 @@ export default function Sidebar({ user }: Props) {
 
         {/* Sous-menu employé si on est sur une fiche */}
         {employeId && (
-          <div className="ml-3 pl-3 border-l border-white/10 space-y-1">
+          <div className="ml-3 pl-3 border-l border-white/10 space-y-1 mt-1">
             {[
               { href: `/dashboard/employes/${employeId}`,          label: "Fiche",     icon: "👤" },
               { href: `/dashboard/employes/${employeId}/contrats`, label: "Contrats",  icon: "📄" },

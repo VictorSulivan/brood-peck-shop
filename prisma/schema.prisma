@@ -49,15 +49,82 @@ enum StatutEvenement {
   annule
 }
 
+enum OrigineProduit {
+  recolte
+  marchand_ambulant
+  elevage_animal
+  autre
+}
+
+enum TypeAnimal {
+  creature_magique
+  animal_compagnie
+}
+
+// --- NOUVEAU : Bestiaire et Recherche de la région ---
+model Espece {
+  id                Int      @id @default(autoincrement())
+  nom               String   @unique
+  type              TypeAnimal @default(creature_magique)
+  description       String?
+  habitat           String?   // Résidence (ex: "Lisières de forêt", "Montagnes")
+  dangerosite       Int      @default(1) // De 1 à 5
+  pointsForts       String?
+  pointsFaibles     String?
+  regimeAlimentaire String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  animauxPossedes   Animal[]
+  rapports          RapportObservation[]
+}
+
+model Animal {
+  id              Int       @id @default(autoincrement())
+  entrepriseId    Int
+  entreprise      Entreprise @relation(fields: [entrepriseId], references: [id])
+  especeId        Int
+  espece          Espece    @relation(fields: [especeId], references: [id])
+  nom             String    // Petit nom (ex: "Poussin")
+  sante           String?   // Ex: "Bonne", "Malade"
+  dateAcquisition DateTime  @default(now())
+  
+  produits        Produit[] @relation("AnimalProduits")
+  rapports        RapportObservation[]
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model RapportObservation {
+  id              Int      @id @default(autoincrement())
+  employeId       Int
+  employe         Employe  @relation(fields: [employeId], references: [id])
+  
+  especeId        Int?
+  espece          Espece?  @relation(fields: [especeId], references: [id], onDelete: SetNull)
+  
+  animalId        Int?
+  animal          Animal?  @relation(fields: [animalId], references: [id], onDelete: SetNull)
+  
+  titre           String
+  contenu         String   // Le texte RP du rapport
+  lieu            String?  // Lieu de l'observation (sauvage ou enclos)
+  dateObservation DateTime @default(now())
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
 model Utilisateur {
-  id           Int      @id @default(autoincrement())
-  employeId    Int      @unique
-  employe      Employe  @relation(fields: [employeId], references: [id])
-  username     String   @unique
-  passwordHash String
-  roleSite     RoleSite
-  actif        Boolean  @default(true)
-  createdAt    DateTime @default(now())
+  id             Int      @id @default(autoincrement())
+  employeId      Int      @unique
+  employe        Employe  @relation(fields: [employeId], references: [id])
+  username       String   @unique
+  passwordHash   String
+  roleSite       RoleSite
+  actif          Boolean  @default(true)
+  createdAt      DateTime @default(now())
 }
 
 model Entreprise {
@@ -67,6 +134,7 @@ model Entreprise {
   clients      Client[]
   gringotts    Gringotts?
   evenements   Evenement[]
+  animaux      Animal[]    // Relation ajoutée
 }
 
 model EntrepriseCliente {
@@ -77,7 +145,7 @@ model EntrepriseCliente {
 }
 
 model Client {
-  id                  Int                @id @default(autoincrement())
+  id                  Int               @id @default(autoincrement())
   typeClient          TypeClient?
   nom                 String
   prenom              String?
@@ -91,66 +159,72 @@ model Client {
 }
 
 model Employe {
-  id                    Int                    @id @default(autoincrement())
+  id                    Int                  @id @default(autoincrement())
   nom                   String
   prenom                String
   role                  RoleEmploye
   dateEmbauche          DateTime?
   salaire               Float?
   pourcentagePrime      Float?
-  actif                 Boolean                @default(true)
+  actif                 Boolean              @default(true)
   notes                 String?
-  createdAt             DateTime               @default(now())
+  createdAt             DateTime             @default(now())
   contrats              Contrat[]
   ventes                Vente[]
   primes                Prime[]
   rolesHistorique       HistoriqueRole[]
   transactions          TransactionGringotts[]
   utilisateur           Utilisateur?
-  restocks              Restock[]              
-  primesAttribuees      Prime[]                @relation("PrimeAttribuePar")
-  evenementsResponsable Evenement[]            @relation("EvenementResponsable")
-  evenements            EvenementEmploye[]     @relation("EvenementEmployes")
+  restocks              Restock[]            
+  primesAttribuees      Prime[]              @relation("PrimeAttribuePar")
+  evenementsResponsable Evenement[]          @relation("EvenementResponsable")
+  evenements            EvenementEmploye[]   @relation("EvenementEmployes")
+  rapportsObservation   RapportObservation[] // Relation ajoutée
 }
 
 model Contrat {
-  id               Int       @id @default(autoincrement())
+  id               Int      @id @default(autoincrement())
   employeId        Int
-  employe          Employe   @relation(fields: [employeId], references: [id])
+  employe          Employe  @relation(fields: [employeId], references: [id])
   typeContrat      String
   dateDebut        DateTime
   dateFin          DateTime?
   salaire          Float?
   pourcentagePrime Float?
   commentaire      String?
-  estActif         Boolean   @default(true)
-  createdAt        DateTime  @default(now())
+  estActif         Boolean  @default(true)
+  createdAt        DateTime @default(now())
 }
 
 model Produit {
-  id            Int                     @id @default(autoincrement())
-  nom           String
-  categorie     CategorieProduit
-  stock         Int                     @default(0)
-  description   String?
-  prixAchat     Float
-  prixVente     Float
-  actif         Boolean                 @default(true)
-  ventes        VenteProduit[]
-  evenements    EvenementConsommation[] @relation("EvenementProduits")
-  restocks      RestockProduit[]       
+  id          Int                  @id @default(autoincrement())
+  nom         String
+  categorie   CategorieProduit
+  stock       Int                  @default(0)
+  description String?
+  prixAchat   Float
+  prixVente   Float
+  actif       Boolean              @default(true)
+  ventes      VenteProduit[]
+  evenements  EvenementConsommation[] @relation("EvenementProduits")
+  restocks    RestockProduit[]       
+  
+  // Nouveaux champs Magizoologie
+  origine     OrigineProduit       @default(recolte)
+  animalId    Int?
+  animal      Animal?              @relation("AnimalProduits", fields: [animalId], references: [id], onDelete: SetNull)
 }
 
 model Vente {
-  id           Int                    @id @default(autoincrement())
+  id           Int                  @id @default(autoincrement())
   employeId    Int
-  employe      Employe                @relation(fields: [employeId], references: [id])
+  employe      Employe              @relation(fields: [employeId], references: [id])
   typeClient   String?
   clientId     Int
-  client       Client                 @relation(fields: [clientId], references: [id])
-  montantTotal Float                  @default(0)
-  statut       StatutVente            @default(en_cours)
-  dateVente    DateTime               @default(now())
+  client       Client               @relation(fields: [clientId], references: [id])
+  montantTotal Float                @default(0)
+  statut       StatutVente          @default(en_cours)
+  dateVente    DateTime             @default(now())
   produits     VenteProduit[]
   transactions TransactionGringotts[]
 }
@@ -167,11 +241,11 @@ model VenteProduit {
 }
 
 model Gringotts {
-  id           Int        @id @default(autoincrement())
-  entrepriseId Int        @unique
+  id           Int      @id @default(autoincrement())
+  entrepriseId Int      @unique
   entreprise   Entreprise @relation(fields: [entrepriseId], references: [id])
-  solde        Float      @default(0)
-  updatedAt    DateTime   @updatedAt
+  solde        Float    @default(0)
+  updatedAt    DateTime @updatedAt
 }
 
 model TransactionGringotts {
@@ -210,23 +284,23 @@ model HistoriqueRole {
 }
 
 model Evenement {
-  id            Int                     @id @default(autoincrement())
+  id            Int                  @id @default(autoincrement())
   titre         String
   type          TypeEvenement
-  statut        StatutEvenement         @default(planifie)
+  statut        StatutEvenement      @default(planifie)
   dateDebut     DateTime
   dateFin       DateTime?
   description   String?
   commentaire   String?
   entrepriseId  Int
-  entreprise    Entreprise              @relation(fields: [entrepriseId], references: [id])
+  entreprise    Entreprise           @relation(fields: [entrepriseId], references: [id])
   responsableId Int?
-  responsable   Employe?                @relation("EvenementResponsable", fields: [responsableId], references: [id])
+  responsable   Employe?             @relation("EvenementResponsable", fields: [responsableId], references: [id])
   employes      EvenementEmploye[]
   clients       EvenementClient[]
   consommations EvenementConsommation[]
-  createdAt     DateTime                @default(now())
-  updatedAt     DateTime                @updatedAt
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
 }
 
 model EvenementEmploye {
@@ -249,30 +323,30 @@ model EvenementClient {
 }
 
 model EvenementConsommation {
-  id           Int       @id @default(autoincrement())
-  evenementId  Int
-  evenement    Evenement @relation(fields: [evenementId], references: [id], onDelete: Cascade)
-  produitId    Int
-  produit      Produit   @relation("EvenementProduits", fields: [produitId], references: [id])
-  quantite     Int
+  id          Int       @id @default(autoincrement())
+  evenementId Int
+  evenement   Evenement @relation(fields: [evenementId], references: [id], onDelete: Cascade)
+  produitId   Int
+  produit     Produit   @relation("EvenementProduits", fields: [produitId], references: [id])
+  quantite    Int
   prixUnitaire Float
 }
 
 model Restock {
-  id           Int              @id @default(autoincrement())
+  id           Int             @id @default(autoincrement())
   employeId    Int
-  employe      Employe          @relation(fields: [employeId], references: [id])
-  dateRestock  DateTime         @default(now())
-  valeurTotale Float            @default(0)
+  employe        Employe       @relation(fields: [employeId], references: [id])
+  dateRestock  DateTime        @default(now())
+  valeurTotale Float           @default(0)
   produits     RestockProduit[]
 }
 
 model RestockProduit {
-  id           Int      @id @default(autoincrement())
-  restockId    Int
-  restock      Restock  @relation(fields: [restockId], references: [id], onDelete: Cascade)
-  produitId    Int
-  produit      Produit  @relation(fields: [produitId], references: [id])
-  quantite     Int
+  id                Int     @id @default(autoincrement())
+  restockId         Int
+  restock           Restock @relation(fields: [restockId], references: [id], onDelete: Cascade)
+  produitId         Int
+  produit           Produit @relation(fields: [produitId], references: [id])
+  quantite          Int
   prixAchatUnitaire Float
 }
