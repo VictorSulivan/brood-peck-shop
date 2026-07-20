@@ -49,7 +49,7 @@ export default async function ContratPage({
           pourcentagePrime: contrat.pourcentagePrime,
           commentaire: contrat.commentaire,
         }}
-        entreprise={entreprise?.nom ?? "Les 3 Balais"}
+        entreprise={entreprise?.nom ?? "Brood & Peck"}
       />
     </div>
   );

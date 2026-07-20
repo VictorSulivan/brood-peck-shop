@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Comptabilité 3 balais",
-  description: "Comptabilité 3 balais",
+  title: "Comptabilité Brood & Peck",
+  description: "Comptabilité Brood & Peck",
 };
 
 export default function RootLayout({

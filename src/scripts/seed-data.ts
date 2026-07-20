@@ -5,7 +5,7 @@ async function main() {
   const entreprise = await prisma.entreprise.upsert({
     where: { id: 1 },
     update: {},
-    create: { nom: "Les 3 Balais" },
+    create: { nom: "Brood & Peck" },
   });
 
   // Gringotts
