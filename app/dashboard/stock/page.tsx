@@ -52,7 +52,6 @@ export default async function StockPage() {
             <thead>
               <tr className="border-b border-[#c5a059]/20">
                 <th className="text-left px-5 py-3 text-[#c5a059] font-medium text-xs uppercase tracking-wider">Produit</th>
-                <th className="text-left px-5 py-3 text-[#c5a059] font-medium text-xs uppercase tracking-wider">Catégorie</th>
                 <th className="text-right px-5 py-3 text-[#c5a059] font-medium text-xs uppercase tracking-wider">Stock</th>
                 <th className="text-right px-5 py-3 text-[#c5a059] font-medium text-xs uppercase tracking-wider">Prix achat</th>
                 <th className="text-right px-5 py-3 text-[#c5a059] font-medium text-xs uppercase tracking-wider">Prix vente</th>
