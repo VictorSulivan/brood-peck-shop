@@ -67,7 +67,7 @@ export default async function GringottsPage() {
       <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
         {stats.map(({ label, value, color }) => (
           <div key={label} className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-5 shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+            <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
             <p className={`text-2xl font-serif font-semibold ${color}`}>{value}</p>
             <p className="text-[#c5a059]/70 text-xs mt-1 uppercase tracking-wider">{label}</p>
           </div>
@@ -77,7 +77,7 @@ export default async function GringottsPage() {
       <CalculateurTaxe />
 
       <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl overflow-hidden shadow-xl relative mt-8">
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
         <div className="px-5 py-4 border-b border-[#c5a059]/20 flex justify-between items-center">
           <p className="text-[#c5a059] text-xs font-medium uppercase tracking-wider">Dernières transactions</p>
           <div className="flex items-center gap-4">

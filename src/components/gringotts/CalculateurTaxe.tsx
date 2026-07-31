@@ -11,7 +11,7 @@ export default function CalculateurTaxe() {
 
   return (
     <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl overflow-hidden shadow-xl relative mb-8">
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+      <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
       
       {/* Tabs */}
       <div className="flex border-b border-[#c5a059]/20 bg-black/10">

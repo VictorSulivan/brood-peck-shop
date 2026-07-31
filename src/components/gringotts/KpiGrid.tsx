@@ -56,7 +56,7 @@ function KpiCard({
           : "bg-[#111815]/75 border-[#c5a059]/30"
       }`}
     >
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+      <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
       <p className="text-xs text-[#c5a059] font-medium uppercase tracking-wider mb-2">{label}</p>
       <p className={`text-xl font-serif font-semibold tabular-nums ${color}`}>{value}</p>
       {sub && <p className="text-xs text-[#e6d5b8]/40 mt-1">{sub}</p>}

@@ -47,7 +47,7 @@ export default async function StockPage() {
         </div>
 
         <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl overflow-hidden shadow-xl relative">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+          <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-[#c5a059]/20">
@@ -112,7 +112,7 @@ export default async function StockPage() {
         </div>
 
         <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl overflow-hidden text-sm shadow-xl relative">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+          <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
           <div className="divide-y divide-[#c5a059]/10">
             {derniersRestocks.length === 0 ? (
               <div className="p-6 text-center text-[#e6d5b8]/40 italic">Aucun restock récent.</div>

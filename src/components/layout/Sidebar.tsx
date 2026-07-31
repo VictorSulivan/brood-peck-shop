@@ -60,7 +60,7 @@ export default function Sidebar({ user }: Props) {
   return (
     <aside className="w-60 shrink-0 flex flex-col bg-[#111815] border-r border-[#c5a059]/20 h-full relative">
       {/* Petit liseré lumineux en haut de la sidebar */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+      <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
 
       {/* Logo */}
       <div className="flex items-center gap-3 px-5 py-5 border-b border-[#c5a059]/15">

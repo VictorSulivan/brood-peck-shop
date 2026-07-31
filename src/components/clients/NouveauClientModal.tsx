@@ -23,7 +23,7 @@ export default function NouveauClientModal({ onClose, onCreated }: { onClose: ()
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/75 backdrop-blur-md" onClick={onClose} />
       <div className="relative w-full max-w-md backdrop-blur-md bg-[#111815]/90 border border-[#c5a059]/40 rounded-2xl p-6 shadow-2xl space-y-5 overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/40" />
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/40" />
 
         <div className="flex items-center justify-between">
           <div>

@@ -105,7 +105,7 @@ function Section({
 }) {
   return (
     <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-5 shadow-xl relative overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+      <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
       <p className="text-xs text-[#c5a059] font-medium uppercase tracking-wider mb-4">{title}</p>
       {children}
     </div>

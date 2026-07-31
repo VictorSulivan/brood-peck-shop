@@ -62,7 +62,7 @@ export default function HistoriqueTableau({ transactions, employes }: Props) {
   return (
     <>
       <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl overflow-hidden shadow-xl relative">
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -134,7 +134,7 @@ export default function HistoriqueTableau({ transactions, employes }: Props) {
       {confirmDelete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4">
           <div className="bg-[#111815] border border-amber-500/30 rounded-xl p-6 w-full max-w-sm shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-amber-500/40" />
+            <div className="absolute top-0 left-0 right-0 h-0.5 bg-amber-500/40" />
             <h2 className="text-[#e6d5b8] font-serif font-medium text-lg mb-2">Supprimer cette transaction ?</h2>
             <p className="text-[#e6d5b8]/60 text-sm mb-1 capitalize">
               {confirmDelete.typeTransaction} — {confirmDelete.description ?? "sans description"}
@@ -213,7 +213,7 @@ function EditModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4">
       <div className="bg-[#111815] border border-[#c5a059]/30 rounded-xl p-6 w-full max-w-md shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-[#e6d5b8] font-serif font-medium text-lg">Modifier la transaction</h2>
           <button onClick={onClose} className="text-[#e6d5b8]/30 hover:text-[#e6d5b8] transition-colors text-xl leading-none">×</button>

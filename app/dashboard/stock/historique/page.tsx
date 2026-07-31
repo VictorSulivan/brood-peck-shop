@@ -43,7 +43,7 @@ export default async function HistoriqueRestocksPage() {
 
         {/* Tableau */}
         <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl overflow-hidden shadow-xl relative">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/40" />
+          <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/40" />
           
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">

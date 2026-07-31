@@ -35,10 +35,8 @@ export default async function RapportsPage() {
       {/* Liste des Rapports */}
       <div className="space-y-4">
         {rapports.map((r) => (
-          <div
-            key={r.id}
-            className="bg-[#0a0e0c]/60 border border-[#c5a059]/25 rounded-xl p-6 space-y-3 shadow-xl transition-all hover:border-[#c5a059]/40"
-          >
+          /* Dans la boucle de mappage des rapports dans RapportsPage : */
+          <div key={r.id} className="bg-[#0a0e0c]/60 border border-[#c5a059]/25 rounded-xl p-6 space-y-3 shadow-xl transition-all hover:border-[#c5a059]/40">
             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
               <div>
                 <span className="text-xs text-[#c5a059]/70 italic">
@@ -49,26 +47,40 @@ export default async function RapportsPage() {
                   </strong>
                   {r.lieu && ` (${r.lieu})`}
                 </span>
-                <h2 className="text-lg font-serif font-medium text-[#e6d5b8] mt-1">{r.titre}</h2>
+                
+                {/* Titre devenu un lien direct vers la page [id] */}
+                <h2 className="text-lg font-serif font-medium text-[#e6d5b8] mt-1 hover:text-[#c5a059] transition-colors">
+                  <Link href={`/dashboard/rapports/${r.id}`}>
+                    {r.titre}
+                  </Link>
+                </h2>
               </div>
 
-              {/* Badges d'association */}
-              <div className="flex flex-wrap gap-2 shrink-0">
-                {r.espece && (
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-[#1b3026] text-[#e6d5b8] border border-[#c5a059]/30 font-medium">
-                    Espèce : {r.espece.nom}
-                  </span>
-                )}
-                {r.animal && (
-                  <span className="text-xs px-2.5 py-1 rounded-full bg-amber-950/60 text-amber-300 border border-amber-500/30 font-medium">
-                    Specimen : {r.animal.nom}
-                  </span>
-                )}
+              {/* Badges & Lien de consultation */}
+              <div className="flex items-center gap-3">
+                <div className="flex flex-wrap gap-2 shrink-0">
+                  {r.espece && (
+                    <span className="text-xs px-2.5 py-1 rounded-full bg-[#1b3026] text-[#e6d5b8] border border-[#c5a059]/30 font-medium">
+                      Espèce : {r.espece.nom}
+                    </span>
+                  )}
+                  {r.animal && (
+                    <span className="text-xs px-2.5 py-1 rounded-full bg-amber-950/60 text-amber-300 border border-amber-500/30 font-medium">
+                      Specimen : {r.animal.nom}
+                    </span>
+                  )}
+                </div>
+
+                <Link
+                  href={`/dashboard/rapports/${r.id}`}
+                  className="text-xs text-[#c5a059] hover:underline font-medium shrink-0 hidden sm:inline"
+                >
+                  Consulter →
+                </Link>
               </div>
             </div>
 
-            {/* Contenu façon parchemin / note de terrain */}
-            <p className="text-sm text-[#e6d5b8]/80 whitespace-pre-wrap bg-[#0a0e0c]/80 p-4 rounded-lg border border-[#c5a059]/15 font-sans leading-relaxed">
+            <p className="text-sm text-[#e6d5b8]/80 whitespace-pre-wrap bg-[#0a0e0c]/80 p-4 rounded-lg border border-[#c5a059]/15 font-sans leading-relaxed line-clamp-3">
               {r.contenu}
             </p>
           </div>

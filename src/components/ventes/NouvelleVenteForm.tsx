@@ -126,7 +126,7 @@ export default function NouvelleVenteForm({ clients: initialClients, produits }:
         {/* CLIENT */}
         {/* CLIENT - Suppression de overflow-hidden et ajout de z-30 pour laisser déborder le menu déroulant */}
         <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-5 shadow-xl relative z-30">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30 rounded-t-xl" />
+          <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30 rounded-t-xl" />
           <FormClients
             clients={clients} 
             selectedClients={clientSelectionFormat} 
@@ -139,7 +139,7 @@ export default function NouvelleVenteForm({ clients: initialClients, produits }:
 
         {/* PRODUITS */}
         <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-5 shadow-xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+          <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
           <p className="text-xs text-[#c5a059] uppercase tracking-widest font-medium mb-3">Catalogue des Articles</p>
           <div className="grid grid-cols-2 gap-2 mb-4">
             {produits.map((p) => {
@@ -219,7 +219,7 @@ export default function NouvelleVenteForm({ clients: initialClients, produits }:
 
         {/* EXTRAS */}
         <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-5 shadow-xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+          <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
           <FormExtras 
             extras={extras} 
             onAddExtra={(label, montant) => setExtras((p) => [...p, { label, montant }])} 
@@ -229,7 +229,7 @@ export default function NouvelleVenteForm({ clients: initialClients, produits }:
 
         {/* TOTAL & SUBMIT */}
         <div className="backdrop-blur-md bg-[#111815]/85 border border-[#c5a059]/30 rounded-xl p-6 shadow-xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/40" />
+          <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/40" />
           {extras.length > 0 && (
             <div className="space-y-1.5 mb-4 pb-4 border-b border-[#c5a059]/20">
               <div className="flex justify-between text-sm text-[#e6d5b8]/70"><span>Produits</span><span>${totalProduits.toFixed(0)}</span></div>

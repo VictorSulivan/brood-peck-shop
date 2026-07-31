@@ -63,7 +63,7 @@ export default async function Dashboard() {
               }`}
             >
               {/* Liseré lumineux en haut des cartes */}
-              <div className={`absolute top-0 left-0 right-0 h-[2px] ${alert ? "bg-amber-500/60" : "bg-[#c5a059]/40"}`} />
+              <div className={`absolute top-0 left-0 right-0 h-0.5 ${alert ? "bg-amber-500/60" : "bg-[#c5a059]/40"}`} />
 
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xl p-2 bg-[#0a0e0c]/80 rounded-lg border border-[#c5a059]/20">{icon}</span>
@@ -81,7 +81,7 @@ export default async function Dashboard() {
 
         {/* Infos rapides */}
         <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-6 shadow-xl relative overflow-hidden hover:bg-[#111815]/85 transition-all">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+          <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
           <p className="text-[#c5a059] text-xs font-medium uppercase tracking-widest mb-4">Informations du Registre</p>
           <div className="space-y-3">
             <div className="flex justify-between items-center text-sm py-1.5 border-b border-white/5">

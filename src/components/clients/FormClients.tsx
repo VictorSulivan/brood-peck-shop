@@ -95,7 +95,7 @@ export default function FormClients({
           </div>
           {open && (
             <div className="absolute top-full left-0 right-0 mt-1.5 bg-[#111815] border border-[#c5a059]/30 rounded-xl shadow-2xl overflow-hidden z-20 backdrop-blur-md">
-              <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
               {filteredClients.length > 0 ? (
                 <div className="py-1.5 max-h-52 overflow-y-auto">
                   {filteredClients.map((c) => (

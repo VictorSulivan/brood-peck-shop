@@ -82,7 +82,7 @@ export default function NouveauProduit() {
 
         {/* Formulaire */}
         <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-6 shadow-xl relative overflow-hidden space-y-5">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/40" />
+          <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/40" />
 
           <Field label="Nom du produit ou de la ressource">
             <input

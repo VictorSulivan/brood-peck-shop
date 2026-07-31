@@ -33,14 +33,14 @@ export default async function NouvelleVentePage() {
       
       {/* Image de fond thématique "Forêt Magique" fixe et immersive */}
       <div 
-        className="absolute inset-0 z-0 bg-cover bg-center opacity-25 filter blur-[1px] scale-105 pointer-events-none fixed"
+        className="inset-0 z-0 bg-cover bg-center opacity-25 filter blur-[1px] scale-105 pointer-events-none fixed"
         style={{
           backgroundImage: `url('https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1920&q=80')`
         }}
       />
 
       {/* Voile sombre pour l'harmonie */}
-      <div className="absolute inset-0 z-0 bg-[#0a0d0c]/70 pointer-events-none fixed" />
+      <div className="inset-0 z-0 bg-[#0a0d0c]/70 pointer-events-none fixed" />
 
       {/* Contenu principal */}
       <div className="relative z-10">
@@ -53,7 +53,7 @@ export default async function NouvelleVentePage() {
 
         {/* Formulaire dans une boîte semi-transparente */}
         <div className="backdrop-blur-md bg-[#111815]/80 border border-[#c5a059]/30 rounded-xl p-6 shadow-xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+          <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
           
           <NouvelleVenteForm clients={clients} produits={produits} />
         </div>

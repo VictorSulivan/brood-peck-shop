@@ -90,7 +90,7 @@ export default function NouveauRestockForm({ produits }: { produits: Produit[] }
       )}
 
       <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl overflow-hidden p-6 space-y-4 shadow-xl relative">
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
 
         <h2 className="text-xs font-medium text-[#c5a059] uppercase tracking-wider mb-2">
           Articles à réapprovisionner
@@ -172,7 +172,7 @@ export default function NouveauRestockForm({ produits }: { produits: Produit[] }
 
       {/* Footer de validation */}
       <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-6 flex flex-col sm:flex-row gap-4 justify-between items-center shadow-xl relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
         
         <div>
           <span className="text-xs text-[#c5a059]/70 block mb-0.5 uppercase tracking-wider">Valeur totale de la commande</span>

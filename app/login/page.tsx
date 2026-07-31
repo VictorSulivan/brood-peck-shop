@@ -37,7 +37,7 @@ export default function LoginPage() {
       <div className="w-full max-w-sm bg-[#111815]/90 backdrop-blur-md border border-[#c5a059]/40 rounded-xl p-8 shadow-2xl shadow-black/90 relative z-10 overflow-hidden">
         
         {/* Bande dorée subtile en haut */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-linear-to-r from-transparent via-[#c5a059] to-transparent opacity-80" />
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r from-transparent via-[#c5a059] to-transparent opacity-80" />
 
         <div className="flex items-center gap-3 mb-8">
           <div>

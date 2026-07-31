@@ -57,7 +57,7 @@ export default async function ClientPage({ params }: { params: Promise<{ id: str
           { label: "Total dépensé", value: `${(totalVentes._sum.montantTotal ?? 0).toFixed(0)} Mornilles` },
         ].map(({ label, value }) => (
           <div key={label} className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-4 shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+            <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
             <p className="text-xl font-serif font-semibold text-[#e6d5b8]">{value}</p>
             <p className="text-[#c5a059]/70 text-xs mt-1 uppercase tracking-wider">{label}</p>
           </div>
@@ -75,7 +75,7 @@ export default async function ClientPage({ params }: { params: Promise<{ id: str
       {/* Historique ventes */}
       {client.ventes.length > 0 && (
         <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl overflow-hidden shadow-xl relative">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+          <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
           <div className="px-5 py-4 border-b border-[#c5a059]/20">
             <p className="text-xs text-[#c5a059] font-medium uppercase tracking-wider">Historique des commandes</p>
           </div>

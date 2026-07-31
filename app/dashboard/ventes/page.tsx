@@ -47,7 +47,7 @@ export default async function VentesPage() {
 
         {/* Tableau des ventes */}
         <div className="backdrop-blur-md bg-[#111815]/80 border border-[#c5a059]/30 rounded-xl overflow-hidden shadow-xl relative">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+          <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
           
           <table className="w-full text-sm">
             <thead>

@@ -64,7 +64,7 @@ export default async function HistoriqueGringottsPage({ searchParams }: PageProp
 
       {/* BARRE DE FILTRES */}
       <form method="GET" className="grid grid-cols-1 sm:grid-cols-4 gap-3 mb-6 backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-4 shadow-xl relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#c5a059]/30" />
         
         {/* Recherche textuelle */}
         <div>

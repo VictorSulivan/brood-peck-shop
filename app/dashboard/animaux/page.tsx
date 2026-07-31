@@ -45,13 +45,26 @@ export default async function AnimauxPage() {
           <tbody className="divide-y divide-[#c5a059]/10">
             {animaux.map((a) => (
               <tr key={a.id} className="hover:bg-[#1b3026]/30 transition-colors">
-                <td className="p-4 font-serif font-medium text-[#e6d5b8]">{a.nom}</td>
-                <td className="p-4 text-[#c5a059] font-medium">{a.espece.nom}</td>
+                <td className="p-4 font-serif font-medium text-[#e6d5b8]">
+                  <Link href={`/dashboard/animaux/${a.id}`} className="hover:text-[#c5a059] hover:underline">
+                    {a.nom}
+                  </Link>
+                </td>
+                <td className="p-4 text-[#c5a059] font-medium font-serif">
+                  <Link href={`/dashboard/bestiaire/${a.espece.id}`} className="hover:underline">
+                    {a.espece.nom}
+                  </Link>
+                </td>
                 <td className="p-4 text-[#e6d5b8]/70">{a.entreprise.nom}</td>
                 <td className="p-4">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#1b3026] text-[#e6d5b8] border border-[#c5a059]/30">
                     {a.sante || "Bonne"}
                   </span>
+                </td>
+                <td className="p-4 text-right">
+                  <Link href={`/dashboard/animaux/${a.id}`} className="text-xs text-[#c5a059] hover:underline font-medium">
+                    Consulter →
+                  </Link>
                 </td>
               </tr>
             ))}
