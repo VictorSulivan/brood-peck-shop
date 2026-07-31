@@ -124,8 +124,9 @@ export default function NouvelleVenteForm({ clients: initialClients, produits }:
 
       <div className="space-y-6">
         {/* CLIENT */}
-        <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-5 shadow-xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+        {/* CLIENT - Suppression de overflow-hidden et ajout de z-30 pour laisser déborder le menu déroulant */}
+        <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-5 shadow-xl relative z-30">
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30 rounded-t-xl" />
           <FormClients
             clients={clients} 
             selectedClients={clientSelectionFormat} 
