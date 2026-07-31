@@ -10,13 +10,22 @@ export default async function ContratPage({
 }) {
   const { id, contratId } = await params;
 
+  const employeId = parseInt(id, 10);
+  const targetContratId = parseInt(contratId, 10);
+
+  if (isNaN(employeId) || isNaN(targetContratId)) {
+    notFound();
+  }
+
   const [employe, contrat, entreprise] = await Promise.all([
-    prisma.employe.findUnique({ where: { id: parseInt(id) } }),
-    prisma.contrat.findUnique({ where: { id: parseInt(contratId) } }),
+    prisma.employe.findUnique({ where: { id: employeId } }),
+    prisma.contrat.findUnique({ where: { id: targetContratId } }),
     prisma.entreprise.findFirst(),
   ]);
 
-  if (!employe || !contrat) notFound();
+  if (!employe || !contrat) {
+    notFound();
+  }
 
   return (
     <div className="max-w-3xl">
@@ -50,6 +59,7 @@ export default async function ContratPage({
           commentaire: contrat.commentaire,
         }}
         entreprise={entreprise?.nom ?? "Brood & Peck"}
+        dateSignature={new Date().toISOString()}
       />
     </div>
   );

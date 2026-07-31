@@ -28,6 +28,9 @@ export default function NouveauRapportPage() {
   }
 
   async function handleSubmit() {
+    if (!form.titre || !form.contenu) {
+      return setError("Le titre et le contenu sont requis.");
+    }
     setLoading(true);
     setError("");
     const res = await fetch("/api/rapports", {
@@ -50,94 +53,112 @@ export default function NouveauRapportPage() {
   }
 
   return (
-    <div className="p-8 max-w-2xl mx-auto w-full">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="p-4 sm:p-8 max-w-2xl mx-auto w-full">
+      <div className="mb-6 flex items-center justify-between border-b border-[#c5a059]/20 pb-4">
         <div>
-          <h1 className="text-xl font-semibold text-white">Nouveau rapport d&apos;observation</h1>
-          <p className="text-white/40 text-xs mt-0.5">Rédiger une note de terrain ou un compte-rendu magizoologique</p>
+          <h1 className="text-xl font-serif font-semibold text-[#e6d5b8] flex items-center gap-2">
+            <span>🖋️</span> Nouveau rapport d&apos;observation
+          </h1>
+          <p className="text-[#c5a059]/70 text-xs mt-0.5 italic">
+            Consigner une note de terrain ou un compte-rendu magizoologique
+          </p>
         </div>
         <button
           onClick={() => router.back()}
-          className="text-xs text-white/50 hover:text-white px-3 py-1.5 rounded-lg border border-white/10 hover:bg-white/5 transition-colors"
+          className="text-xs text-[#e6d5b8]/60 hover:text-[#e6d5b8] px-3 py-1.5 rounded-lg border border-[#c5a059]/20 hover:border-[#c5a059]/40 bg-[#0a0e0c]/40 transition-colors"
         >
           ← Retour
         </button>
       </div>
 
-      <div className="bg-[#16162a] border border-white/10 rounded-xl p-6 shadow-xl space-y-4">
+      <div className="bg-[#0a0e0c]/60 border border-[#c5a059]/25 rounded-xl p-6 shadow-xl space-y-4">
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Titre du rapport</label>
+          <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">
+            Titre du rapport
+          </label>
           <input
-            placeholder="ex: Expédition dans la forêt interdite..."
+            placeholder="ex: Expédition dans la Forêt Interdite..."
             value={form.titre}
             onChange={(e) => set("titre", e.target.value)}
-            className="w-full bg-[#0f0f1a] border border-white/10 rounded-lg px-3 py-2 text-white text-sm"
+            className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm placeholder:text-[#e6d5b8]/20 focus:outline-none focus:border-[#c5a059] transition-colors"
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs text-white/40 mb-1.5">Concerne l&apos;espèce (optionnel)</label>
+            <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">
+              Concerne l&apos;espèce (optionnel)
+            </label>
             <select
               value={form.especeId}
               onChange={(e) => set("especeId", e.target.value)}
-              className="w-full bg-[#0f0f1a] border border-white/10 rounded-lg px-3 py-2 text-white text-sm"
+              className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm focus:outline-none focus:border-[#c5a059] transition-colors"
             >
-              <option value="">-- Aucune / Global --</option>
+              <option value="" className="bg-[#0a0e0c] text-[#e6d5b8]/40">-- Aucune / Global --</option>
               {especes.map((esp) => (
-                <option key={esp.id} value={esp.id}>{esp.nom}</option>
+                <option key={esp.id} value={esp.id} className="bg-[#0a0e0c] text-[#e6d5b8]">
+                  {esp.nom}
+                </option>
               ))}
             </select>
           </div>
           <div>
-            <label className="block text-xs text-white/40 mb-1.5">Concerne l&apos;animal (optionnel)</label>
+            <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">
+              Concerne l&apos;animal (optionnel)
+            </label>
             <select
               value={form.animalId}
               onChange={(e) => set("animalId", e.target.value)}
-              className="w-full bg-[#0f0f1a] border border-white/10 rounded-lg px-3 py-2 text-white text-sm"
+              className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm focus:outline-none focus:border-[#c5a059] transition-colors"
             >
-              <option value="">-- Aucun / Aucun en particulier --</option>
+              <option value="" className="bg-[#0a0e0c] text-[#e6d5b8]/40">-- Aucun / Aucun en particulier --</option>
               {animaux.map((anim) => (
-                <option key={anim.id} value={anim.id}>{anim.nom}</option>
+                <option key={anim.id} value={anim.id} className="bg-[#0a0e0c] text-[#e6d5b8]">
+                  {anim.nom}
+                </option>
               ))}
             </select>
           </div>
         </div>
 
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Lieu de l&apos;observation</label>
+          <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">
+            Lieu de l&apos;observation
+          </label>
           <input
-            placeholder="ex: Enclos principal / Zone montagneuse"
+            placeholder="ex: Enclos principal / Clairière de l'Ouest"
             value={form.lieu}
             onChange={(e) => set("lieu", e.target.value)}
-            className="w-full bg-[#0f0f1a] border border-white/10 rounded-lg px-3 py-2 text-white text-sm"
+            className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm placeholder:text-[#e6d5b8]/20 focus:outline-none focus:border-[#c5a059] transition-colors"
           />
         </div>
 
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Contenu du rapport (RP)</label>
+          <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">
+            Contenu du rapport (RP)
+          </label>
           <textarea
             rows={6}
             placeholder="Détaillez vos observations, le comportement des créatures..."
             value={form.contenu}
             onChange={(e) => set("contenu", e.target.value)}
-            className="w-full bg-[#0f0f1a] border border-white/10 rounded-lg px-3 py-2 text-white text-sm resize-none"
+            className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm placeholder:text-[#e6d5b8]/20 focus:outline-none focus:border-[#c5a059] transition-colors resize-none leading-relaxed"
           />
         </div>
 
-        {error && <p className="text-red-400 text-sm">{error}</p>}
+        {error && <p className="text-red-400 text-xs italic">⚠️ {error}</p>}
 
         <div className="flex gap-3 pt-2">
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="flex-1 bg-[#2a2250] hover:bg-[#342b6e] border border-[#3d3580] text-[#c4bbff] text-sm font-medium py-2.5 rounded-lg transition-colors disabled:opacity-50"
+            className="flex-1 bg-[#1b3026] hover:bg-[#233d31] border border-[#c5a059]/40 text-[#f3e9d2] text-sm font-semibold py-2.5 rounded-lg transition-all shadow-md active:scale-[0.99] disabled:opacity-50"
           >
-            {loading ? "Publication..." : "Publier le rapport"}
+            {loading ? "Consignation en cours..." : "✨ Publier le rapport"}
           </button>
           <button
             onClick={() => router.back()}
-            className="px-4 text-sm text-white/40 hover:text-white border border-white/10 rounded-lg transition-colors"
+            className="px-4 text-sm text-[#e6d5b8]/60 hover:text-[#e6d5b8] border border-[#c5a059]/20 hover:border-[#c5a059]/40 rounded-lg transition-colors"
           >
             Annuler
           </button>

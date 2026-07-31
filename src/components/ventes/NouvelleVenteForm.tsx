@@ -124,33 +124,41 @@ export default function NouvelleVenteForm({ clients: initialClients, produits }:
 
       <div className="space-y-6">
         {/* CLIENT */}
-        <FormClients
-          clients={clients} 
-          selectedClients={clientSelectionFormat} 
-          onSelectClient={(id) => setClientId(id)} 
-          onRemoveClient={() => setClientId(null)} 
-          onUpdateNbPersonnes={() => {}} 
-          onOpenModal={() => setShowModal(true)} 
-        />
+        <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-5 shadow-xl relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+          <FormClients
+            clients={clients} 
+            selectedClients={clientSelectionFormat} 
+            onSelectClient={(id) => setClientId(id)} 
+            onRemoveClient={() => setClientId(null)} 
+            onUpdateNbPersonnes={() => {}} 
+            onOpenModal={() => setShowModal(true)} 
+          />
+        </div>
 
         {/* PRODUITS */}
-        <div className="bg-[#16162a] border border-white/10 rounded-xl p-5">
-          <p className="text-xs text-white/40 uppercase tracking-widest mb-3">Produits</p>
+        <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-5 shadow-xl relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+          <p className="text-xs text-[#c5a059] uppercase tracking-widest font-medium mb-3">Catalogue des Articles</p>
           <div className="grid grid-cols-2 gap-2 mb-4">
             {produits.map((p) => {
               const inCart = lignes.find((l) => l.produitId === p.id);
               return (
                 <button key={p.id} type="button" onClick={() => ajouterProduit(p)}
-                  className={`text-left px-3 py-2.5 rounded-lg text-sm border transition-colors ${inCart ? "bg-[#2a2250] border-[#3d3580] text-[#c4bbff]" : "bg-[#0f0f1a] border-white/10 text-white/60 hover:text-white hover:border-white/20"}`}>
-                  <span className="block truncate">{p.nom}</span>
-                  <span className="text-xs opacity-60">${Number(p.prixVente).toFixed(0)} · stock {p.stock}</span>
+                  className={`text-left px-3 py-2.5 rounded-lg text-sm border transition-all ${
+                    inCart 
+                      ? "bg-[#1b3026] border-[#c5a059]/50 text-[#e6d5b8] shadow-inner" 
+                      : "bg-[#0a0e0c]/60 border-[#c5a059]/20 text-[#e6d5b8]/70 hover:text-[#e6d5b8] hover:border-[#c5a059]/40 hover:bg-[#111815]"
+                  }`}>
+                  <span className="block truncate font-medium">{p.nom}</span>
+                  <span className="text-xs text-[#c5a059]/70">${Number(p.prixVente).toFixed(0)} · stock {p.stock}</span>
                 </button>
               );
             })}
           </div>
 
           {lignes.length > 0 && (
-            <div className="border-t border-white/10 pt-4 space-y-3">
+            <div className="border-t border-[#c5a059]/20 pt-4 space-y-3">
               {lignes.map((l) => {
                 let prixEffectifLigne = l.prixVente;
                 if (l.prixEmploye) {
@@ -160,8 +168,8 @@ export default function NouvelleVenteForm({ clients: initialClients, produits }:
                 }
                 
                 return (
-                  <div key={l.produitId} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#0f0f1a]/40 p-3 rounded-lg border border-white/5">
-                    <span className="text-sm text-white flex-1 truncate font-medium">{l.nom}</span>
+                  <div key={l.produitId} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#0a0e0c]/60 p-3 rounded-lg border border-[#c5a059]/15">
+                    <span className="text-sm text-[#e6d5b8] flex-1 truncate font-medium">{l.nom}</span>
                     
                     {/* Toggles de réduction */}
                     <div className="flex items-center gap-4 my-1 sm:my-0">
@@ -173,8 +181,8 @@ export default function NouvelleVenteForm({ clients: initialClients, produits }:
                           onChange={() => togglePrixEtudiant(l.produitId)}
                           className="sr-only peer"
                         />
-                        <div className="w-8 h-4 bg-white/5 peer-focus:outline-none rounded-full peer border border-white/10 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white/30 peer-checked:after:bg-[#c4bbff] after:rounded-full after:h-2.5 after:w-2.5 after:transition-all peer-checked:bg-[#2a2250] peer-checked:border-[#3d3580]"></div>
-                        <span className="ml-1.5 text-[11px] font-medium text-white/40 peer-checked:text-[#c4bbff]">🎓 Étudiant</span>
+                        <div className="w-8 h-4 bg-black/40 peer-focus:outline-none rounded-full peer border border-[#c5a059]/30 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-[#e6d5b8]/40 peer-checked:after:bg-[#e6d5b8] after:rounded-full after:h-2.5 after:w-2.5 after:transition-all peer-checked:bg-[#1b3026] peer-checked:border-[#c5a059]"></div>
+                        <span className="ml-1.5 text-[11px] font-medium text-[#e6d5b8]/50 peer-checked:text-[#e6d5b8]">🎓 Étudiant</span>
                       </label>
 
                       {/* Switch Employé */}
@@ -185,21 +193,21 @@ export default function NouvelleVenteForm({ clients: initialClients, produits }:
                           onChange={() => togglePrixEmploye(l.produitId)}
                           className="sr-only peer"
                         />
-                        <div className="w-8 h-4 bg-white/5 peer-focus:outline-none rounded-full peer border border-white/10 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white/30 peer-checked:after:bg-[#bbf7d0] after:rounded-full after:h-2.5 after:w-2.5 after:transition-all peer-checked:bg-[#14281d] peer-checked:border-emerald-800"></div>
-                        <span className="ml-1.5 text-[11px] font-medium text-white/40 peer-checked:text-emerald-400">💼 Employé</span>
+                        <div className="w-8 h-4 bg-black/40 peer-focus:outline-none rounded-full peer border border-[#c5a059]/30 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-[#e6d5b8]/40 peer-checked:after:bg-emerald-300 after:rounded-full after:h-2.5 after:w-2.5 after:transition-all peer-checked:bg-[#14281d] peer-checked:border-emerald-700"></div>
+                        <span className="ml-1.5 text-[11px] font-medium text-[#e6d5b8]/50 peer-checked:text-emerald-400">💼 Employé</span>
                       </label>
                     </div>
 
                     {/* Controles Quantités, prix de la ligne et suppression */}
-                    <div className="flex items-center justify-between sm:justify-end gap-3 border-t border-white/5 pt-2 sm:pt-0 sm:border-none">
+                    <div className="flex items-center justify-between sm:justify-end gap-3 border-t border-[#c5a059]/10 pt-2 sm:pt-0 sm:border-none">
                       <div className="flex items-center gap-2">
-                        <button type="button" onClick={() => setQuantite(l.produitId, l.quantite - 1)} className="w-7 h-7 rounded bg-white/5 hover:bg-white/10 text-white/60 hover:text-white text-sm transition-colors">−</button>
-                        <span className="text-white text-sm w-5 text-center">{l.quantite}</span>
-                        <button type="button" onClick={() => setQuantite(l.produitId, l.quantite + 1)} className="w-7 h-7 rounded bg-white/5 hover:bg-white/10 text-white/60 hover:text-white text-sm transition-colors">+</button>
+                        <button type="button" onClick={() => setQuantite(l.produitId, l.quantite - 1)} className="w-7 h-7 rounded bg-[#111815] hover:bg-[#1b3026] border border-[#c5a059]/20 text-[#e6d5b8]/70 hover:text-[#e6d5b8] text-sm transition-colors">−</button>
+                        <span className="text-[#e6d5b8] text-sm w-5 text-center font-medium">{l.quantite}</span>
+                        <button type="button" onClick={() => setQuantite(l.produitId, l.quantite + 1)} className="w-7 h-7 rounded bg-[#111815] hover:bg-[#1b3026] border border-[#c5a059]/20 text-[#e6d5b8]/70 hover:text-[#e6d5b8] text-sm transition-colors">+</button>
                       </div>
 
-                      <span className="text-sm text-white/60 w-16 text-right">${(l.quantite * prixEffectifLigne).toFixed(0)}</span>
-                      <button type="button" onClick={() => setQuantite(l.produitId, 0)} className="text-white/20 hover:text-red-400 text-xs transition-colors pl-2">✕</button>
+                      <span className="text-sm text-[#e6d5b8] font-serif font-semibold w-16 text-right">${(l.quantite * prixEffectifLigne).toFixed(0)}</span>
+                      <button type="button" onClick={() => setQuantite(l.produitId, 0)} className="text-[#e6d5b8]/30 hover:text-red-400 text-xs transition-colors pl-2">✕</button>
                     </div>
                   </div>
                 );
@@ -209,32 +217,36 @@ export default function NouvelleVenteForm({ clients: initialClients, produits }:
         </div>
 
         {/* EXTRAS */}
-        <FormExtras 
-          extras={extras} 
-          onAddExtra={(label, montant) => setExtras((p) => [...p, { label, montant }])} 
-          onRemoveExtra={(index) => setExtras((p) => p.filter((_, j) => j !== index))} 
-        />
+        <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-5 shadow-xl relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+          <FormExtras 
+            extras={extras} 
+            onAddExtra={(label, montant) => setExtras((p) => [...p, { label, montant }])} 
+            onRemoveExtra={(index) => setExtras((p) => p.filter((_, j) => j !== index))} 
+          />
+        </div>
 
         {/* TOTAL & SUBMIT */}
-        <div className="bg-[#16162a] border border-white/10 rounded-xl p-5">
+        <div className="backdrop-blur-md bg-[#111815]/85 border border-[#c5a059]/30 rounded-xl p-6 shadow-xl relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/40" />
           {extras.length > 0 && (
-            <div className="space-y-1.5 mb-4 pb-4 border-b border-white/10">
-              <div className="flex justify-between text-sm text-white/50"><span>Produits</span><span>${totalProduits.toFixed(0)}</span></div>
-              <div className="flex justify-between text-sm text-white/50"><span>Extras</span><span>${totalExtras.toFixed(0)}</span></div>
+            <div className="space-y-1.5 mb-4 pb-4 border-b border-[#c5a059]/20">
+              <div className="flex justify-between text-sm text-[#e6d5b8]/70"><span>Produits</span><span>${totalProduits.toFixed(0)}</span></div>
+              <div className="flex justify-between text-sm text-[#e6d5b8]/70"><span>Extras</span><span>${totalExtras.toFixed(0)}</span></div>
             </div>
           )}
           <div className="flex items-center justify-between mb-4">
-            <span className="text-white/40 text-sm">Total</span>
-            <span className="text-2xl font-medium text-white">${total.toFixed(0)}</span>
+            <span className="text-[#c5a059] text-sm uppercase tracking-wider font-medium">Total de la transaction</span>
+            <span className="text-2xl font-serif font-bold text-[#e6d5b8]">${total.toFixed(0)}</span>
           </div>
-          {error && <p className="text-red-400 text-sm mb-3">{error}</p>}
+          {error && <p className="text-red-400 text-sm mb-3 italic">{error}</p>}
           <div className="flex gap-3">
             <button onClick={handleSubmit} disabled={loading}
-              className="flex-1 bg-[#2a2250] hover:bg-[#342b6e] border border-[#3d3580] text-[#c4bbff] text-sm font-medium py-2.5 rounded-lg transition-colors disabled:opacity-50">
+              className="flex-1 bg-[#1b3026] hover:bg-[#233d31] border border-[#c5a059]/40 text-[#f3e9d2] text-sm font-medium py-2.5 rounded-lg transition-all shadow-inner disabled:opacity-50 tracking-wide">
               {loading ? "Validation..." : "✓ Valider la vente"}
             </button>
             <button type="button" onClick={() => router.back()}
-              className="px-4 text-sm text-white/40 hover:text-white border border-white/10 rounded-lg transition-colors">
+              className="px-4 text-sm text-[#e6d5b8]/60 hover:text-[#e6d5b8] border border-[#c5a059]/20 hover:border-[#c5a059]/40 rounded-lg transition-colors">
               Annuler
             </button>
           </div>

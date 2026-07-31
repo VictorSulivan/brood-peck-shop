@@ -15,23 +15,25 @@ export function ClassementEmployes({
     sansEmploye.gains > 0 || sansEmploye.depenses > 0 || sansEmploye.taxes > 0;
 
   return (
-    <div className="bg-[#16162a] border border-white/10 rounded-xl p-5">
+    <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-5 shadow-xl relative overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+      
       <div className="flex items-start justify-between mb-5">
         <div>
-          <p className="text-xs text-white/30 uppercase tracking-widest">
+          <p className="text-xs text-[#c5a059] font-medium uppercase tracking-wider">
             Contribution par employé
           </p>
-          <p className="text-xs text-white/20 mt-0.5">
+          <p className="text-xs text-[#e6d5b8]/50 mt-0.5">
             Classé par solde net généré sur la période
           </p>
         </div>
-        <span className="text-xs text-white/30 border border-white/10 rounded-lg px-2 py-1">
+        <span className="text-xs text-[#c5a059] border border-[#c5a059]/20 bg-black/20 rounded-lg px-2.5 py-1">
           {employes.length} employé{employes.length > 1 ? "s" : ""}
         </span>
       </div>
 
       {employes.length === 0 && !hasSansEmploye ? (
-        <p className="text-white/20 text-sm py-8 text-center">
+        <p className="text-[#e6d5b8]/30 text-sm py-8 text-center italic">
           Aucune transaction attribuée à un employé sur cette période.
         </p>
       ) : (
@@ -55,20 +57,20 @@ export function ClassementEmployes({
           })}
 
           {hasSansEmploye && (
-            <div className="pt-3 border-t border-white/5">
+            <div className="pt-3 border-t border-[#c5a059]/15">
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-3">
                   <span className="w-5" />
-                  <span className="text-white/25 italic">Sans employé attribué</span>
+                  <span className="text-[#e6d5b8]/40 italic">Sans employé attribué</span>
                 </div>
                 <div className="flex items-center gap-4">
-                  <span className="text-green-400/40">
+                  <span className="text-emerald-400/60">
                     +{fmt(sansEmploye.gains)} Mornilles
                   </span>
-                  <span className="text-red-400/40">
+                  <span className="text-amber-400/60">
                     -{fmt(sansEmploye.depenses + sansEmploye.taxes)} Mornilles
                   </span>
-                  <span className="text-white/25 tabular-nums w-20 text-right">
+                  <span className="text-[#e6d5b8]/40 tabular-nums w-20 text-right">
                     {fmt(sansEmploye.gains - sansEmploye.depenses - sansEmploye.taxes)} Mornilles
                   </span>
                 </div>
@@ -104,24 +106,24 @@ function EmployeRow({
     <div>
       <div className="flex items-center justify-between mb-1.5">
         <div className="flex items-center gap-3 min-w-0">
-          <span className="text-xs text-white/20 font-mono w-5 shrink-0 text-right">
+          <span className="text-xs text-[#c5a059]/50 font-mono w-5 shrink-0 text-right font-medium">
             {rang}
           </span>
-          <span className="text-sm text-white/80 font-medium truncate">{nom}</span>
-          <span className="text-xs text-white/25 shrink-0">{nbTransactions} tx</span>
+          <span className="text-sm text-[#e6d5b8] font-medium truncate">{nom}</span>
+          <span className="text-xs text-[#c5a059]/40 shrink-0">{nbTransactions} tx</span>
         </div>
 
         {/* Stats inline */}
         <div className="flex items-center gap-4 text-xs shrink-0 ml-4">
-          <span className="text-green-400/70 tabular-nums hidden sm:block">
+          <span className="text-emerald-400/80 tabular-nums hidden sm:block">
             +{fmt(gains)} Mornilles
           </span>
-          <span className="text-red-400/70 tabular-nums hidden sm:block">
+          <span className="text-amber-400/80 tabular-nums hidden sm:block">
             -{fmt(depenses + taxes)} Mornilles
           </span>
           <span
-            className={`font-semibold tabular-nums w-20 text-right ${
-              net >= 0 ? "text-[#a89af9]" : "text-red-400"
+            className={`font-serif font-semibold tabular-nums w-20 text-right ${
+              net >= 0 ? "text-emerald-400" : "text-amber-400"
             }`}
           >
             {net >= 0 ? "+" : ""} Mornilles {fmt(net)}
@@ -130,9 +132,9 @@ function EmployeRow({
       </div>
 
       {/* Barre de progression gains */}
-      <div className="h-1 bg-white/5 rounded-full overflow-hidden ml-8">
+      <div className="h-1 bg-black/30 rounded-full overflow-hidden ml-8 border border-[#c5a059]/10">
         <div
-          className="h-full bg-gradient-to-r from-[#a89af9]/50 to-[#7c6ef0]/30 rounded-full transition-all duration-500"
+          className="h-full bg-linear-to-r from-[#c5a059] to-emerald-500 rounded-full transition-all duration-500"
           style={{ width: `${pct}%` }}
         />
       </div>

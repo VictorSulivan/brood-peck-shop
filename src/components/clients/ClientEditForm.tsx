@@ -38,22 +38,28 @@ export default function ClientEditForm({ client }: { client: ClientForm }) {
   }
 
   return (
-    <div className="bg-[#16162a] border border-white/10 rounded-xl p-5 space-y-4">
-      <p className="text-xs text-white/40 uppercase tracking-widest">Modifier</p>
+    <div className="bg-[#0a0e0c]/60 border border-[#c5a059]/25 rounded-xl p-5 space-y-4 shadow-xl">
+      <p className="text-xs text-[#c5a059] uppercase tracking-widest font-medium flex items-center gap-2">
+        <span>✏️</span> Modifier la fiche
+      </p>
 
       <div>
-        <label className="block text-xs text-white/40 mb-1.5">Type</label>
+        <label className="block text-xs text-[#c5a059]/80 mb-1.5 font-medium">Type de client</label>
         <div className="grid grid-cols-2 gap-2">
           {[
             { value: "particulier", label: "👤  Particulier" },
             { value: "entreprise",  label: "🏢  Entreprise" },
           ].map(({ value, label }) => (
-            <button key={value} type="button" onClick={() => set("typeClient", value)}
-              className={`py-2 rounded-lg text-sm border transition-colors ${
+            <button
+              key={value}
+              type="button"
+              onClick={() => set("typeClient", value)}
+              className={`py-2 rounded-lg text-sm border transition-all ${
                 form.typeClient === value
-                  ? "bg-[#2a2250] border-[#3d3580] text-[#c4bbff]"
-                  : "bg-[#0f0f1a] border-white/10 text-white/40 hover:text-white hover:border-white/20"
-              }`}>
+                  ? "bg-[#1b3026] border-[#c5a059]/50 text-[#e6d5b8] font-medium shadow-inner"
+                  : "bg-[#0a0e0c]/40 border-[#c5a059]/20 text-[#e6d5b8]/50 hover:text-[#e6d5b8] hover:border-[#c5a059]/40"
+              }`}
+            >
               {label}
             </button>
           ))}
@@ -62,22 +68,33 @@ export default function ClientEditForm({ client }: { client: ClientForm }) {
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Prénom</label>
-          <input value={form.prenom} onChange={(e) => set("prenom", e.target.value)} className="input-dark" />
+          <label className="block text-xs text-[#c5a059]/80 mb-1.5 font-medium">Prénom</label>
+          <input
+            value={form.prenom}
+            onChange={(e) => set("prenom", e.target.value)}
+            className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-sm text-[#e6d5b8] placeholder:text-[#e6d5b8]/20 focus:outline-none focus:border-[#c5a059] transition-colors"
+          />
         </div>
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Nom</label>
-          <input value={form.nom} onChange={(e) => set("nom", e.target.value)} className="input-dark" />
+          <label className="block text-xs text-[#c5a059]/80 mb-1.5 font-medium">Nom</label>
+          <input
+            value={form.nom}
+            onChange={(e) => set("nom", e.target.value)}
+            className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-sm text-[#e6d5b8] placeholder:text-[#e6d5b8]/20 focus:outline-none focus:border-[#c5a059] transition-colors"
+          />
         </div>
       </div>
 
-      <button onClick={handleSave} disabled={loading}
-        className={`w-full text-sm font-medium py-2.5 rounded-lg border transition-colors ${
+      <button
+        onClick={handleSave}
+        disabled={loading}
+        className={`w-full text-sm font-semibold py-2.5 rounded-lg border transition-all shadow-md active:scale-[0.99] ${
           saved
-            ? "bg-green-500/10 border-green-500/20 text-green-400"
-            : "bg-[#2a2250] hover:bg-[#342b6e] border-[#3d3580] text-[#c4bbff] disabled:opacity-50"
-        }`}>
-        {saved ? "✓ Sauvegardé" : loading ? "Sauvegarde..." : "Sauvegarder"}
+            ? "bg-emerald-950/60 border-emerald-500/40 text-emerald-300"
+            : "bg-[#1b3026] hover:bg-[#233d31] border-[#c5a059]/40 text-[#f3e9d2] disabled:opacity-50"
+        }`}
+      >
+        {saved ? "✓ Enregistré dans le registre" : loading ? "Mise à jour..." : "Enregistrer les modifications"}
       </button>
     </div>
   );

@@ -10,20 +10,25 @@ export default function CalculateurTaxe() {
   const [mode, setMode] = useState<Mode>("simulateur");
 
   return (
-    <div className="bg-[#16162a] border border-white/10 rounded-xl overflow-hidden mb-8">
+    <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl overflow-hidden shadow-xl relative mb-8">
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+      
       {/* Tabs */}
-      <div className="flex border-b border-white/10">
+      <div className="flex border-b border-[#c5a059]/20 bg-black/10">
         {([
           { id: "simulateur", label: "🧮 Simulateur" },
           { id: "versement",  label: "💸 Versement" },
           { id: "retrait",    label: "🏧 Retrait" },
         ] as { id: Mode; label: string }[]).map(({ id, label }) => (
-          <button key={id} onClick={() => setMode(id)}
-            className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+          <button
+            key={id}
+            onClick={() => setMode(id)}
+            className={`flex-1 px-4 py-3 text-sm font-medium transition-all ${
               mode === id
-                ? "text-white border-b-2 border-[#a89af9] bg-white/3"
-                : "text-white/40 hover:text-white/70"
-            }`}>
+                ? "text-[#e6d5b8] border-b-2 border-[#c5a059] bg-[#1b3026]/40"
+                : "text-[#e6d5b8]/40 hover:text-[#e6d5b8]/80 hover:bg-[#c5a059]/5"
+            }`}
+          >
             {label}
           </button>
         ))}
@@ -47,35 +52,45 @@ function Simulateur() {
   return (
     <div className="space-y-4">
       <div>
-        <p className="text-xs text-white/40 uppercase tracking-widest mb-3">Simulateur de retrait Gringotts</p>
-        <p className="text-white/30 text-xs mb-4">Calcule combien demander pour recevoir exactement le montant désiré après {TAXE}% de taxe.</p>
+        <p className="text-xs text-[#c5a059] font-medium uppercase tracking-wider mb-1">
+          Simulateur de retrait Gringotts
+        </p>
+        <p className="text-[#e6d5b8]/50 text-xs">
+          Calcule combien demander pour recevoir exactement le montant désiré après {TAXE}% de taxe.
+        </p>
       </div>
 
       <div>
-        <label className="block text-xs text-white/40 mb-1.5">Montant net désiré (Mornilles)</label>
+        <label className="block text-xs text-[#c5a059] font-medium uppercase tracking-wider mb-1.5">
+          Montant net désiré (Mornilles)
+        </label>
         <input
           type="number"
           value={montant}
           onChange={(e) => setMontant(e.target.value)}
           placeholder="Ex: 1000"
-          className="input-dark"
+          className="w-full bg-[#111815] border border-[#c5a059]/20 rounded-lg px-3 py-2 text-sm text-[#e6d5b8] placeholder-[#e6d5b8]/20 focus:outline-none focus:border-[#c5a059]/60 transition-colors"
         />
       </div>
 
       {souhait > 0 && (
         <div className="grid grid-cols-2 gap-3 pt-1">
-          <div className="bg-[#0f0f1a] border border-white/10 rounded-xl p-4">
-            <p className="text-xs text-white/40 mb-1">À demander</p>
-            <p className="text-2xl font-medium text-green-400">${aDemanderr.toLocaleString("fr-FR")}</p>
+          <div className="bg-[#111815]/80 border border-[#c5a059]/20 rounded-xl p-4">
+            <p className="text-xs text-[#c5a059]/70 mb-1">À demander</p>
+            <p className="text-2xl font-serif font-semibold text-emerald-400">
+              ${aDemanderr.toLocaleString("fr-FR")}
+            </p>
           </div>
-          <div className="bg-[#0f0f1a] border border-white/10 rounded-xl p-4">
-            <p className="text-xs text-white/40 mb-1">Taxe Gringotts ({TAXE}%)</p>
-            <p className="text-2xl font-medium text-red-400">-{taxe.toLocaleString("fr-FR")} Mornilles</p>
+          <div className="bg-[#111815]/80 border border-[#c5a059]/20 rounded-xl p-4">
+            <p className="text-xs text-[#c5a059]/70 mb-1">Taxe Gringotts ({TAXE}%)</p>
+            <p className="text-2xl font-serif font-semibold text-amber-400">
+              -{taxe.toLocaleString("fr-FR")} Mornilles
+            </p>
           </div>
         </div>
       )}
 
-      <p className="text-white/20 text-[11px] italic">
+      <p className="text-[#e6d5b8]/30 text-[11px] italic">
         * Arrondi supérieur automatique inclus pour garantir la réception exacte du montant désiré.
       </p>
     </div>
@@ -91,12 +106,13 @@ function Transaction({ type }: { type: "versement" | "retrait" }) {
 
   const isRetrait = type === "retrait";
   const montantNum = parseFloat(montant) || 0;
-  const taxe = isRetrait ? Math.round(montantNum * TAXE / 100) : 0;
+  const taxe = isRetrait ? Math.round((montantNum * TAXE) / 100) : 0;
   const netRecu = montantNum - taxe;
 
   async function handleSubmit() {
     if (!montantNum) return setError("Montant requis");
-    setLoading(true); setError("");
+    setLoading(true);
+    setError("");
 
     const res = await fetch("/api/gringotts/transaction", {
       method: "POST",
@@ -110,8 +126,12 @@ function Transaction({ type }: { type: "versement" | "retrait" }) {
 
     if (res.ok) {
       setSuccess(true);
-      setMontant(""); setDescription("");
-      setTimeout(() => { setSuccess(false); window.location.reload(); }, 1500);
+      setMontant("");
+      setDescription("");
+      setTimeout(() => {
+        setSuccess(false);
+        window.location.reload();
+      }, 1500);
     } else {
       const d = await res.json();
       setError(d.error ?? "Erreur");
@@ -122,10 +142,10 @@ function Transaction({ type }: { type: "versement" | "retrait" }) {
   return (
     <div className="space-y-4">
       <div>
-        <p className="text-xs text-white/40 uppercase tracking-widest mb-3">
+        <p className="text-xs text-[#c5a059] font-medium uppercase tracking-wider mb-1">
           {isRetrait ? "Retrait depuis Gringotts" : "Versement vers Gringotts"}
         </p>
-        <p className="text-white/30 text-xs mb-4">
+        <p className="text-[#e6d5b8]/50 text-xs">
           {isRetrait
             ? `Gringotts prélève ${TAXE}% de taxe sur chaque retrait.`
             : "Ajouter de l'argent au solde Gringotts directement."}
@@ -133,44 +153,67 @@ function Transaction({ type }: { type: "versement" | "retrait" }) {
       </div>
 
       <div>
-        <label className="block text-xs text-white/40 mb-1.5">
+        <label className="block text-xs text-[#c5a059] font-medium uppercase tracking-wider mb-1.5">
           {isRetrait ? "Montant brut à retirer (Mornilles)" : "Montant à verser (Mornilles)"}
         </label>
-        <input type="number" value={montant} onChange={(e) => setMontant(e.target.value)}
-          placeholder="Ex: 5000" className="input-dark" />
+        <input
+          type="number"
+          value={montant}
+          onChange={(e) => setMontant(e.target.value)}
+          placeholder="Ex: 5000"
+          className="w-full bg-[#111815] border border-[#c5a059]/20 rounded-lg px-3 py-2 text-sm text-[#e6d5b8] placeholder-[#e6d5b8]/20 focus:outline-none focus:border-[#c5a059]/60 transition-colors"
+        />
       </div>
 
       {isRetrait && montantNum > 0 && (
         <div className="grid grid-cols-2 gap-3">
-          <div className="bg-[#0f0f1a] border border-white/10 rounded-xl p-3">
-            <p className="text-xs text-white/40 mb-1">Taxe ({TAXE}%)</p>
-            <p className="text-lg font-medium text-red-400">-{taxe.toLocaleString("fr-FR")} Mornilles</p>
+          <div className="bg-[#111815]/80 border border-[#c5a059]/20 rounded-xl p-3">
+            <p className="text-xs text-[#c5a059]/70 mb-1">Taxe ({TAXE}%)</p>
+            <p className="text-lg font-serif font-semibold text-amber-400">
+              -{taxe.toLocaleString("fr-FR")} Mornilles
+            </p>
           </div>
-          <div className="bg-[#0f0f1a] border border-white/10 rounded-xl p-3">
-            <p className="text-xs text-white/40 mb-1">Net reçu</p>
-            <p className="text-lg font-medium text-green-400">{netRecu.toLocaleString("fr-FR")} Mornilles</p>
+          <div className="bg-[#111815]/80 border border-[#c5a059]/20 rounded-xl p-3">
+            <p className="text-xs text-[#c5a059]/70 mb-1">Net reçu</p>
+            <p className="text-lg font-serif font-semibold text-emerald-400">
+              {netRecu.toLocaleString("fr-FR")} Mornilles
+            </p>
           </div>
         </div>
       )}
 
       <div>
-        <label className="block text-xs text-white/40 mb-1.5">Description (optionnel)</label>
-        <input value={description} onChange={(e) => setDescription(e.target.value)}
+        <label className="block text-xs text-[#c5a059] font-medium uppercase tracking-wider mb-1.5">
+          Description (optionnel)
+        </label>
+        <input
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
           placeholder={isRetrait ? "Achat véhicule, loyer..." : "Remboursement, apport..."}
-          className="input-dark" />
+          className="w-full bg-[#111815] border border-[#c5a059]/20 rounded-lg px-3 py-2 text-sm text-[#e6d5b8] placeholder-[#e6d5b8]/20 focus:outline-none focus:border-[#c5a059]/60 transition-colors"
+        />
       </div>
 
-      {error && <p className="text-red-400 text-sm">{error}</p>}
+      {error && <p className="text-amber-400 text-sm font-medium">{error}</p>}
 
-      <button onClick={handleSubmit} disabled={loading}
-        className={`w-full text-sm font-medium py-2.5 rounded-lg border transition-colors ${
+      <button
+        onClick={handleSubmit}
+        disabled={loading}
+        className={`w-full text-sm font-medium py-2.5 rounded-lg border transition-all shadow-inner ${
           success
-            ? "bg-green-500/10 border-green-500/20 text-green-400"
+            ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
             : isRetrait
-              ? "bg-red-500/10 hover:bg-red-500/20 border-red-500/20 text-red-400 disabled:opacity-50"
-              : "bg-[#2a2250] hover:bg-[#342b6e] border-[#3d3580] text-[#c4bbff] disabled:opacity-50"
-        }`}>
-        {success ? "✓ Opération effectuée" : loading ? "En cours..." : isRetrait ? "Effectuer le retrait" : "Effectuer le versement"}
+            ? "bg-amber-500/10 hover:bg-amber-500/20 border-amber-500/30 text-amber-300 disabled:opacity-50"
+            : "bg-[#1b3026] hover:bg-[#233d31] border-[#c5a059]/40 text-[#f3e9d2] disabled:opacity-50"
+        }`}
+      >
+        {success
+          ? "✓ Opération effectuée"
+          : loading
+          ? "En cours..."
+          : isRetrait
+          ? "Effectuer le retrait"
+          : "Effectuer le versement"}
       </button>
     </div>
   );

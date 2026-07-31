@@ -26,9 +26,6 @@ const RH_NAV = [
   { href: "/dashboard/employes/primes",         label: "Primes",    icon: "🏆" },
 ];
 
-const ADMIN_NAV = [
-  { href: "/admin", label: "Admin", icon: "⚙️" },
-];
 
 type Props = {
   user: { username: string; role: string; name?: string | null };
@@ -42,8 +39,8 @@ function NavLink({ href, label, icon }: { href: string; label: string; icon: str
       href={href}
       className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
         active
-          ? "bg-[#2a2250] text-[#c4bbff] border border-[#3d3580]"
-          : "text-white/50 hover:text-white hover:bg-white/5"
+          ? "bg-[#1b3026] text-[#e6d5b8] border border-[#c5a059]/40 shadow-inner"
+          : "text-[#e6d5b8]/60 hover:text-[#e6d5b8] hover:bg-[#c5a059]/5"
       }`}
     >
       <span className="text-base">{icon}</span>
@@ -61,19 +58,22 @@ export default function Sidebar({ user }: Props) {
   const employeId = employeMatch?.[1];
 
   return (
-    <aside className="w-60 shrink-0 flex flex-col bg-[#16162a] border-r border-white/10 h-full">
+    <aside className="w-60 shrink-0 flex flex-col bg-[#111815] border-r border-[#c5a059]/20 h-full relative">
+      {/* Petit liseré lumineux en haut de la sidebar */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+
       {/* Logo */}
-      <div className="flex items-center gap-3 px-5 py-5 border-b border-white/10">
-        <div className="w-8 h-8 bg-[#2a2250] border border-[#3d3580] rounded-lg flex items-center justify-center overflow-hidden">
+      <div className="flex items-center gap-3 px-5 py-5 border-b border-[#c5a059]/15">
+        <div className="w-8 h-8 bg-[#1b3026] border border-[#c5a059]/30 rounded-lg flex items-center justify-center overflow-hidden shadow-inner">
           <Image 
             src={pegaseLogo} 
-            alt="Logo Bière Comptabilité" 
-            className="w-6 h-6 object-contain"
+            alt="Logo Magizoologie" 
+            className="w-6 h-6 object-contain filter brightness-90"
           />
         </div>
         <div>
-          <p className="text-white font-medium text-sm leading-none">GTA RP</p>
-          <p className="text-white/40 text-xs mt-0.5">Manager</p>
+          <p className="text-[#e6d5b8] font-serif font-medium text-sm leading-none">Brood & Peck</p>
+          <p className="text-[#c5a059]/70 text-xs italic mt-0.5">Magizoologie</p>
         </div>
       </div>
 
@@ -83,19 +83,19 @@ export default function Sidebar({ user }: Props) {
 
         {/* Section Magizoologie */}
         <div className="pt-3 pb-1 px-3">
-          <p className="text-white/20 text-xs uppercase tracking-widest">Magizoologie</p>
+          <p className="text-[#c5a059]/50 text-xs uppercase tracking-widest font-medium">Magizoologie</p>
         </div>
         {MAGIZOOLOGY_NAV.map((item) => <NavLink key={item.href} {...item} />)}
 
         {/* Section RH */}
         <div className="pt-3 pb-1 px-3">
-          <p className="text-white/20 text-xs uppercase tracking-widest">RH</p>
+          <p className="text-[#c5a059]/50 text-xs uppercase tracking-widest font-medium">RH</p>
         </div>
         {RH_NAV.map((item) => <NavLink key={item.href} {...item} />)}
 
         {/* Sous-menu employé si on est sur une fiche */}
         {employeId && (
-          <div className="ml-3 pl-3 border-l border-white/10 space-y-1 mt-1">
+          <div className="ml-3 pl-3 border-l border-[#c5a059]/20 space-y-1 mt-1">
             {[
               { href: `/dashboard/employes/${employeId}`,          label: "Fiche",     icon: "👤" },
               { href: `/dashboard/employes/${employeId}/contrats`, label: "Contrats",  icon: "📄" },
@@ -105,8 +105,8 @@ export default function Sidebar({ user }: Props) {
                 <Link key={href} href={href}
                   className={`flex items-center gap-2 px-3 py-2 rounded-lg text-xs transition-colors ${
                     active
-                      ? "bg-[#2a2250] text-[#c4bbff] border border-[#3d3580]"
-                      : "text-white/40 hover:text-white hover:bg-white/5"
+                      ? "bg-[#1b3026] text-[#e6d5b8] border border-[#c5a059]/40"
+                      : "text-[#e6d5b8]/50 hover:text-[#e6d5b8] hover:bg-[#c5a059]/5"
                   }`}>
                   <span>{icon}</span>
                   {label}
@@ -115,31 +115,22 @@ export default function Sidebar({ user }: Props) {
             })}
           </div>
         )}
-
-        {isAdmin && (
-          <>
-            <div className="pt-3 pb-1 px-3">
-              <p className="text-white/20 text-xs uppercase tracking-widest">Admin</p>
-            </div>
-            {ADMIN_NAV.map((item) => <NavLink key={item.href} {...item} />)}
-          </>
-        )}
       </nav>
 
       {/* User + logout */}
-      <div className="px-4 py-4 border-t border-white/10">
+      <div className="px-4 py-4 border-t border-[#c5a059]/15">
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-8 h-8 rounded-full bg-[#2a2250] border border-[#3d3580] flex items-center justify-center text-[#a89af9] text-xs font-medium uppercase">
+          <div className="w-8 h-8 rounded-full bg-[#1b3026] border border-[#c5a059]/30 flex items-center justify-center text-[#e6d5b8] text-xs font-serif font-medium uppercase shadow-inner">
             {user.username?.slice(0, 2)}
           </div>
           <div className="min-w-0">
-            <p className="text-white text-sm font-medium truncate">{user.username}</p>
-            <p className="text-white/30 text-xs capitalize">{user.role}</p>
+            <p className="text-[#e6d5b8] text-sm font-medium truncate">{user.username}</p>
+            <p className="text-[#c5a059]/70 text-xs capitalize italic">{user.role}</p>
           </div>
         </div>
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}
-          className="w-full text-left px-3 py-2 rounded-lg text-sm text-white/40 hover:text-white/70 hover:bg-white/5 transition-colors"
+          className="w-full text-left px-3 py-2 rounded-lg text-sm text-[#e6d5b8]/50 hover:text-[#e6d5b8] hover:bg-[#c5a059]/5 transition-colors"
         >
           ← Déconnexion
         </button>

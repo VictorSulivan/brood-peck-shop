@@ -38,25 +38,33 @@ export default function NouveauContratForm({ employeId }: { employeId: number })
       router.refresh();
     } else {
       const data = await res.json();
-      setError(data.error ?? "Erreur");
+      setError(data.error ?? "Erreur lors de la rédaction du contrat");
     }
     setLoading(false);
   }
 
   return (
-    <div className="bg-[#16162a] border border-white/10 rounded-xl p-5 space-y-4">
-      <p className="text-xs text-white/40 uppercase tracking-widest">Nouveau contrat</p>
+    <div className="bg-[#0a0e0c]/60 border border-[#c5a059]/25 rounded-xl p-5 space-y-4 shadow-xl">
+      <p className="text-xs text-[#c5a059] uppercase tracking-wider font-semibold font-serif border-b border-[#c5a059]/20 pb-2">
+        🖋️ Rédiger un nouveau contrat
+      </p>
 
       <div>
-        <label className="block text-xs text-white/40 mb-1.5">Type de contrat</label>
+        <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">
+          Type de contrat
+        </label>
         <div className="grid grid-cols-4 gap-2">
           {TYPES.map((t) => (
-            <button key={t} type="button" onClick={() => set("typeContrat", t)}
-              className={`py-2 rounded-lg text-sm border transition-colors ${
+            <button
+              key={t}
+              type="button"
+              onClick={() => set("typeContrat", t)}
+              className={`py-2 px-1 rounded-lg text-xs font-serif transition-colors border ${
                 form.typeContrat === t
-                  ? "bg-[#2a2250] border-[#3d3580] text-[#c4bbff]"
-                  : "bg-[#0f0f1a] border-white/10 text-white/40 hover:text-white hover:border-white/20"
-              }`}>
+                  ? "bg-[#1b3026] border-[#c5a059] text-[#e6d5b8] font-medium"
+                  : "bg-[#0a0e0c]/80 border-[#c5a059]/20 text-[#e6d5b8]/60 hover:text-[#e6d5b8] hover:border-[#c5a059]/40"
+              }`}
+            >
               {t}
             </button>
           ))}
@@ -65,50 +73,80 @@ export default function NouveauContratForm({ employeId }: { employeId: number })
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Date de début</label>
-          <input type="date" value={form.dateDebut}
+          <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">
+            Date de début
+          </label>
+          <input
+            type="date"
+            value={form.dateDebut}
             onChange={(e) => set("dateDebut", e.target.value)}
-            className="input-dark" />
+            className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm focus:outline-none focus:border-[#c5a059] transition-colors"
+          />
         </div>
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Date de fin (optionnel)</label>
-          <input type="date" value={form.dateFin}
+          <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">
+            Date de fin (optionnel)
+          </label>
+          <input
+            type="date"
+            value={form.dateFin}
             onChange={(e) => set("dateFin", e.target.value)}
-            className="input-dark" />
+            className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm focus:outline-none focus:border-[#c5a059] transition-colors"
+          />
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Salaire mensuel (Mornilles)</label>
-          <input type="number" value={form.salaire}
+          <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">
+            Salaire mensuel (Mornilles)
+          </label>
+          <input
+            type="number"
+            value={form.salaire}
             onChange={(e) => set("salaire", e.target.value)}
-            className="input-dark" placeholder="5000" />
+            className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm placeholder:text-[#e6d5b8]/20 focus:outline-none focus:border-[#c5a059] transition-colors"
+            placeholder="5000"
+          />
         </div>
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Prime (%)</label>
-          <input type="number" value={form.pourcentagePrime}
+          <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">
+            Prime (%)
+          </label>
+          <input
+            type="number"
+            value={form.pourcentagePrime}
             onChange={(e) => set("pourcentagePrime", e.target.value)}
-            className="input-dark" placeholder="10" />
+            className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm placeholder:text-[#e6d5b8]/20 focus:outline-none focus:border-[#c5a059] transition-colors"
+            placeholder="10"
+          />
         </div>
       </div>
 
       <div>
-        <label className="block text-xs text-white/40 mb-1.5">Commentaire (optionnel)</label>
-        <input value={form.commentaire}
+        <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">
+          Commentaire (optionnel)
+        </label>
+        <input
+          value={form.commentaire}
           onChange={(e) => set("commentaire", e.target.value)}
-          className="input-dark" placeholder="Promotion, renouvellement..." />
+          className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm placeholder:text-[#e6d5b8]/20 focus:outline-none focus:border-[#c5a059] transition-colors"
+          placeholder="Promotion, renouvellement..."
+        />
       </div>
 
-      {error && <p className="text-red-400 text-sm">{error}</p>}
+      {error && <p className="text-red-400 text-xs italic">⚠️ {error}</p>}
 
-      <button onClick={handleSubmit} disabled={loading}
-        className={`w-full text-sm font-medium py-2.5 rounded-lg border transition-colors ${
+      <button
+        onClick={handleSubmit}
+        disabled={loading}
+        className={`w-full text-sm font-semibold py-2.5 rounded-lg border transition-all shadow-md active:scale-[0.99] ${
           success
-            ? "bg-green-500/10 border-green-500/20 text-green-400"
-            : "bg-[#2a2250] hover:bg-[#342b6e] border-[#3d3580] text-[#c4bbff] disabled:opacity-50"
-        }`}>
-        {success ? "✓ Contrat créé" : loading ? "Création..." : "Créer le contrat"}
+            ? "bg-emerald-950/60 border-emerald-500/40 text-emerald-300"
+            : "bg-[#1b3026] hover:bg-[#233d31] border-[#c5a059]/40 text-[#f3e9d2] disabled:opacity-50"
+        }`}
+      >
+        {success ? "✓ Contrat enregistré" : loading ? "Scellement..." : "✨ Enregistrer le contrat"}
       </button>
     </div>
   );

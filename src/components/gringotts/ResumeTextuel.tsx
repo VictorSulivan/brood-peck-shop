@@ -20,25 +20,26 @@ export function ResumeTextuel({
   const label = periodeLabel(periode, debut, fin);
 
   return (
-    <div className="bg-[#16162a] border border-white/10 rounded-xl p-5">
-      <p className="text-xs text-white/30 uppercase tracking-widest mb-3">Résumé</p>
-      <p className="text-white/50 text-sm leading-relaxed">
+    <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-5 shadow-xl relative overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+      <p className="text-xs text-[#c5a059] font-medium uppercase tracking-wider mb-3">Résumé</p>
+      <p className="text-[#e6d5b8]/70 text-sm leading-relaxed">
         Sur la période{" "}
-        <span className="text-white/80">{label}</span>, Gringotts a enregistré{" "}
-        <span className="text-green-400">${fmt(kpi.gains)}</span> de gains bruts
+        <span className="text-[#e6d5b8] font-medium">{label}</span>, Gringotts a enregistré{" "}
+        <span className="text-emerald-400 font-serif font-semibold">+{fmt(kpi.gains)} Mornilles</span> de gains bruts
         pour{" "}
-        <span className="text-red-400">${fmt(kpi.depenses)}</span> de dépenses et{" "}
-        <span className="text-orange-400">${fmt(kpi.taxes)}</span> de taxes
+        <span className="text-amber-400 font-serif font-semibold">-{fmt(kpi.depenses)} Mornilles</span> de dépenses et{" "}
+        <span className="text-amber-400 font-serif font-semibold">-{fmt(kpi.taxes)} Mornilles</span> de taxes
         prélevées. Le solde net de la période est de{" "}
         <span
-          className={`font-semibold ${
-            kpi.net >= 0 ? "text-[#a89af9]" : "text-red-400"
+          className={`font-serif font-semibold ${
+            kpi.net >= 0 ? "text-emerald-400" : "text-amber-400"
           }`}
         >
-          {kpi.net >= 0 ? "+" : ""}${fmt(kpi.net)}
+          {kpi.net >= 0 ? "+" : ""}{fmt(kpi.net)} Mornilles
         </span>
         {kpi.net < 0 && (
-          <span className="text-white/30">
+          <span className="text-[#e6d5b8]/40">
             {" "}— les charges dépassent les gains sur cette période.
           </span>
         )}
@@ -46,8 +47,8 @@ export function ResumeTextuel({
         {topEmploye && (
           <>
             L&apos;employé le plus contributeur est{" "}
-            <span className="text-white/80">{topEmploye.nom}</span> avec{" "}
-            <span className="text-green-400">${fmt(topEmploye.gains)}</span>{" "}
+            <span className="text-[#e6d5b8] font-medium">{topEmploye.nom}</span> avec{" "}
+            <span className="text-emerald-400 font-serif font-semibold">+{fmt(topEmploye.gains)} Mornilles</span>{" "}
             générés sur {topEmploye.nbTransactions} transaction
             {topEmploye.nbTransactions > 1 ? "s" : ""}.
           </>

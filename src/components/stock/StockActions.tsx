@@ -20,16 +20,16 @@ export default function StockActions({ id, actif }: { id: number; actif: boolean
 
   return (
     <div className="flex items-center justify-end gap-2">
-      
-       <a href={`/dashboard/stock/${id}`}
-        className="text-xs text-white/40 hover:text-white px-2 py-1 rounded hover:bg-white/5 transition-colors"
-        >
+      <a 
+        href={`/dashboard/stock/${id}`}
+        className="text-xs text-[#e6d5b8]/60 hover:text-[#e6d5b8] px-2.5 py-1 rounded hover:bg-[#c5a059]/10 transition-colors"
+      >
         Modifier
       </a>
       <button
         onClick={toggleActif}
         disabled={loading}
-        className="text-xs text-white/40 hover:text-white px-2 py-1 rounded hover:bg-white/5 transition-colors disabled:opacity-30"
+        className="text-xs text-[#e6d5b8]/60 hover:text-[#e6d5b8] px-2.5 py-1 rounded hover:bg-[#c5a059]/10 transition-colors disabled:opacity-30"
       >
         {actif ? "Désactiver" : "Activer"}
       </button>

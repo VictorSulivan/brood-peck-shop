@@ -152,18 +152,18 @@ export default async function AnalyseGringottsPage({ searchParams }: PageProps) 
         <div>
           <Link
             href="/dashboard/gringotts"
-            className="text-xs text-white/40 hover:text-white transition-colors mb-2 inline-block"
+            className="text-xs text-[#c5a059]/70 hover:text-[#e6d5b8] transition-colors mb-2 inline-block"
           >
             ← Retour aux finances
           </Link>
-          <h1 className="text-2xl font-medium text-white">Analyse financière</h1>
-          <p className="text-sm text-white/30 mt-0.5">
+          <h1 className="text-2xl font-serif font-medium text-[#e6d5b8]">Analyse financière</h1>
+          <p className="text-sm text-[#c5a059]/70 italic mt-0.5">
             {periodeLabel(periode, debut, fin)}
           </p>
         </div>
         <Link
           href="/dashboard/gringotts/historique"
-          className="text-xs text-white/40 hover:text-white border border-white/10 rounded-lg px-3 py-2 transition-colors self-start sm:self-auto"
+          className="text-xs text-[#e6d5b8] hover:text-white border border-[#c5a059]/30 hover:border-[#c5a059] bg-[#1b3026]/50 hover:bg-[#1b3026] rounded-lg px-3 py-2 transition-all self-start sm:self-auto font-medium"
         >
           Historique complet →
         </Link>

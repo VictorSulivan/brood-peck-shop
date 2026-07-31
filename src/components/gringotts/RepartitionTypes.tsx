@@ -28,8 +28,8 @@ export function RepartitionTypes({
                 label={t.type}
                 montant={t.montant}
                 max={totalGains}
-                barColor="bg-green-500/50"
-                textColor="text-green-400"
+                barColor="bg-linear-to-r from-[#c5a059] to-emerald-400"
+                textColor="text-emerald-400"
                 sign="+"
               />
             ))
@@ -48,8 +48,8 @@ export function RepartitionTypes({
                 label={t.type}
                 montant={t.montant}
                 max={totalCharges}
-                barColor="bg-red-500/40"
-                textColor="text-red-400"
+                barColor="bg-linear-to-r from-amber-600 to-amber-400"
+                textColor="text-amber-400"
                 sign="-"
               />
             ))
@@ -76,17 +76,17 @@ function BarRow({
 }) {
   const pct = max > 0 ? Math.round((montant / max) * 100) : 0;
   return (
-    <div className="mb-3 last:mb-0">
+    <div className="mb-3.5 last:mb-0">
       <div className="flex justify-between text-xs mb-1.5">
-        <span className="text-white/50 capitalize">{label}</span>
+        <span className="text-[#e6d5b8]/80 capitalize font-medium">{label}</span>
         <span className="tabular-nums">
-          <span className={textColor}>
-            {sign}${fmt(montant)}
+          <span className={`font-serif font-semibold ${textColor}`}>
+            {sign}{fmt(montant)} Mornilles
           </span>
-          <span className="text-white/25 ml-1.5">({pct}%)</span>
+          <span className="text-[#e6d5b8]/40 ml-1.5">({pct}%)</span>
         </span>
       </div>
-      <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+      <div className="h-1 bg-black/30 rounded-full overflow-hidden border border-[#c5a059]/10">
         <div
           className={`h-full ${barColor} rounded-full transition-all duration-500`}
           style={{ width: `${pct}%` }}
@@ -104,8 +104,9 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-[#16162a] border border-white/10 rounded-xl p-5">
-      <p className="text-xs text-white/30 uppercase tracking-widest mb-4">{title}</p>
+    <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-5 shadow-xl relative overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+      <p className="text-xs text-[#c5a059] font-medium uppercase tracking-wider mb-4">{title}</p>
       {children}
     </div>
   );
@@ -113,7 +114,7 @@ function Section({
 
 function Empty() {
   return (
-    <p className="text-white/20 text-sm py-6 text-center">
+    <p className="text-[#e6d5b8]/30 text-sm py-6 text-center italic">
       Aucune donnée sur cette période.
     </p>
   );

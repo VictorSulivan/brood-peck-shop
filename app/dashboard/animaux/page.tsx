@@ -11,42 +11,58 @@ export default async function AnimauxPage() {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+      {/* En-tête */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#c5a059]/20">
         <div>
-          <h1 className="text-2xl font-medium text-white">Cheptel & Animaux</h1>
-          <p className="text-white/40 text-sm mt-1">Suivi des créatures et animaux en élevage</p>
+          <h1 className="text-2xl font-bold tracking-wide text-[#e6d5b8] flex items-center gap-3 font-serif">
+            <span>🐾</span> Cheptel & Animaux
+          </h1>
+          <p className="text-xs text-[#c5a059]/70 mt-1 italic">
+            Suivi des créatures et animaux en élevage au domaine
+          </p>
         </div>
+
         <Link
           href="/dashboard/animaux/nouveau"
-          className="bg-[#2a2250] hover:bg-[#342b6e] border border-[#3d3580] text-[#c4bbff] text-sm font-medium px-4 py-2.5 rounded-lg transition-colors"
+          className="inline-flex items-center justify-center gap-2 bg-linear-to-r from-amber-800 to-amber-950 hover:from-amber-700 hover:to-amber-900 border border-[#c5a059]/50 text-[#f3e9d2] text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-lg shadow-black/40 active:scale-[0.98]"
         >
-          + Enregistrer un animal
+          <span className="text-base leading-none">✨</span>
+          <span>Enregistrer un animal</span>
         </Link>
       </div>
 
-      <div className="bg-[#16162a] border border-white/10 rounded-xl overflow-hidden">
+      {/* Tableau du Cheptel */}
+      <div className="bg-[#0a0e0c]/60 border border-[#c5a059]/25 rounded-xl overflow-hidden shadow-xl">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-white/10 text-white/30 text-xs uppercase tracking-wider text-left">
+            <tr className="border-b border-[#c5a059]/20 bg-[#111815]/80 text-[#c5a059] text-xs uppercase tracking-wider text-left font-medium">
               <th className="p-4">Nom (Surnom)</th>
               <th className="p-4">Espèce</th>
               <th className="p-4">Entreprise</th>
               <th className="p-4">Santé</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/5">
+          <tbody className="divide-y divide-[#c5a059]/10">
             {animaux.map((a) => (
-              <tr key={a.id} className="hover:bg-white/1 transition-colors">
-                <td className="p-4 font-medium text-white">{a.nom}</td>
-                <td className="p-4 text-[#c4bbff]">{a.espece.nom}</td>
-                <td className="p-4 text-white/60">{a.entreprise.nom}</td>
-                <td className="p-4 text-white/80">{a.sante || "Bonne"}</td>
+              <tr key={a.id} className="hover:bg-[#1b3026]/30 transition-colors">
+                <td className="p-4 font-serif font-medium text-[#e6d5b8]">{a.nom}</td>
+                <td className="p-4 text-[#c5a059] font-medium">{a.espece.nom}</td>
+                <td className="p-4 text-[#e6d5b8]/70">{a.entreprise.nom}</td>
+                <td className="p-4">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#1b3026] text-[#e6d5b8] border border-[#c5a059]/30">
+                    {a.sante || "Bonne"}
+                  </span>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        {/* État vide */}
         {animaux.length === 0 && (
-          <div className="text-center py-12 text-white/30">Aucun animal enregistré pour le moment.</div>
+          <div className="text-center py-12 text-[#e6d5b8]/40 italic">
+            Aucun animal répertorié dans le cheptel pour le moment.
+          </div>
         )}
       </div>
     </div>

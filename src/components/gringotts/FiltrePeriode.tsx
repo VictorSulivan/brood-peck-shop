@@ -4,7 +4,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Periode } from "types/analyse";
 
-
 // 1 semaine réelle = 1 semestre RP / 2 semaines réelles = 1 an RP
 const PERIODES: { id: Periode; labelRp: string; labelReel: string }[] = [
   { id: "7j",    labelRp: "1 semestre",  labelReel: "7 jours"  },
@@ -36,10 +35,12 @@ export function FiltrePeriode() {
   }
 
   return (
-    <div className="bg-[#16162a] border border-white/10 rounded-xl p-4 space-y-3">
+    <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-4 space-y-3 shadow-xl relative overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+      
       <div className="flex items-center gap-2 mb-1">
-        <p className="text-xs text-white/30 uppercase tracking-widest">Période</p>
-        <span className="text-[10px] text-white/20 border border-white/10 rounded px-1.5 py-0.5">
+        <p className="text-xs text-[#c5a059] font-medium uppercase tracking-wider">Période</p>
+        <span className="text-[10px] text-[#c5a059]/70 border border-[#c5a059]/20 bg-black/20 rounded px-1.5 py-0.5">
           1 sem. réelle = 1 semestre RP
         </span>
       </div>
@@ -49,15 +50,15 @@ export function FiltrePeriode() {
           <button
             key={id}
             onClick={() => navigate(id, debut, fin)}
-            className={`flex flex-col items-start px-3 py-2 rounded-lg border transition-colors text-left ${
+            className={`flex flex-col items-start px-3 py-2 rounded-lg border transition-all text-left ${
               currentPeriode === id
-                ? "bg-[#a89af9]/15 border-[#a89af9]/40 text-[#a89af9]"
-                : "bg-white/5 border-white/10 text-white/40 hover:text-white/70 hover:border-white/20"
+                ? "bg-[#1b3026] border-[#c5a059] text-[#e6d5b8] shadow-inner"
+                : "bg-black/20 border-[#c5a059]/15 text-[#e6d5b8]/50 hover:text-[#e6d5b8] hover:border-[#c5a059]/40"
             }`}
           >
             <span className="text-xs font-medium">{labelRp}</span>
             {labelReel && (
-              <span className={`text-[10px] ${currentPeriode === id ? "text-[#a89af9]/50" : "text-white/20"}`}>
+              <span className={`text-[10px] ${currentPeriode === id ? "text-[#c5a059]" : "text-[#e6d5b8]/30"}`}>
                 {labelReel} réels
               </span>
             )}
@@ -66,29 +67,29 @@ export function FiltrePeriode() {
       </div>
 
       {currentPeriode === "custom" && (
-        <div className="flex flex-wrap items-end gap-3 pt-3 border-t border-white/5">
+        <div className="flex flex-wrap items-end gap-3 pt-3 border-t border-[#c5a059]/15">
           <div>
-            <label className="block text-xs text-white/40 mb-1.5">Du</label>
+            <label className="block text-xs text-[#c5a059] font-medium uppercase tracking-wider mb-1.5">Du</label>
             <input
               type="date"
               value={debut}
               onChange={(e) => setDebut(e.target.value)}
-              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#a89af9]"
+              className="bg-[#111815] border border-[#c5a059]/20 rounded-lg px-3 py-2 text-sm text-[#e6d5b8] focus:outline-none focus:border-[#c5a059]/60 transition-colors"
             />
           </div>
           <div>
-            <label className="block text-xs text-white/40 mb-1.5">Au</label>
+            <label className="block text-xs text-[#c5a059] font-medium uppercase tracking-wider mb-1.5">Au</label>
             <input
               type="date"
               value={fin}
               onChange={(e) => setFin(e.target.value)}
-              className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#a89af9]"
+              className="bg-[#111815] border border-[#c5a059]/20 rounded-lg px-3 py-2 text-sm text-[#e6d5b8] focus:outline-none focus:border-[#c5a059]/60 transition-colors"
             />
           </div>
           <button
             onClick={() => navigate("custom", debut, fin)}
             disabled={!debut || !fin}
-            className="bg-[#2a2250] hover:bg-[#3d3580] disabled:opacity-40 border border-[#3d3580] text-[#a89af9] text-sm rounded-lg px-4 py-2 font-medium transition-colors"
+            className="bg-[#1b3026] hover:bg-[#233d31] disabled:opacity-40 border border-[#c5a059]/40 text-[#f3e9d2] text-sm rounded-lg px-4 py-2 font-medium transition-all shadow-inner"
           >
             Appliquer
           </button>

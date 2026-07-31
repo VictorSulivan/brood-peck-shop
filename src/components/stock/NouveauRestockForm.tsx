@@ -7,7 +7,6 @@ import Link from "next/link";
 interface Produit {
   id: number;
   nom: string;
-  categorie: string;
   stock: number;
   prixAchat: number;
 }
@@ -85,13 +84,15 @@ export default function NouveauRestockForm({ produits }: { produits: Produit[] }
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {erreur && (
-        <div className="p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-sm">
+        <div className="p-4 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-xl text-sm">
           {erreur}
         </div>
       )}
 
-      <div className="bg-[#16162a] border border-white/10 rounded-xl overflow-hidden p-6 space-y-4">
-        <h2 className="text-xs font-semibold text-white/30 uppercase tracking-wider mb-2">
+      <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl overflow-hidden p-6 space-y-4 shadow-xl relative">
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+
+        <h2 className="text-xs font-medium text-[#c5a059] uppercase tracking-wider mb-2">
           Articles à réapprovisionner
         </h2>
 
@@ -101,21 +102,23 @@ export default function NouveauRestockForm({ produits }: { produits: Produit[] }
           return (
             <div
               key={index}
-              className="flex flex-col sm:flex-row gap-4 items-start sm:items-end bg-white/2 p-4 rounded-lg border border-white/5 transition-colors"
+              className="flex flex-col sm:flex-row gap-4 items-start sm:items-end bg-black/20 p-4 rounded-lg border border-[#c5a059]/10 transition-colors"
             >
               {/* Sélection du produit */}
               <div className="flex-1 w-full">
-                <label className="block text-xs text-white/40 mb-1.5 font-medium">Produit</label>
+                <label className="block text-xs text-[#c5a059] mb-1.5 font-medium uppercase tracking-wider">
+                  Produit
+                </label>
                 <select
                   value={ligne.produitId}
                   onChange={(e) => handleChangeLigne(index, "produitId", e.target.value)}
-                  className="w-full bg-[#111122] border border-white/10 rounded-lg p-2.5 text-white text-sm focus:outline-none focus:border-white/20 transition-colors"
+                  className="w-full bg-[#111815] border border-[#c5a059]/20 rounded-lg p-2.5 text-[#e6d5b8] text-sm focus:outline-none focus:border-[#c5a059]/60 transition-colors"
                   required
                 >
-                  <option value="" className="bg-[#16162a]">Choisir un produit...</option>
+                  <option value="" className="bg-[#111815] text-[#e6d5b8]/50">Choisir un produit...</option>
                   {produits.map((p) => (
-                    <option key={p.id} value={p.id} className="bg-[#16162a]">
-                      {p.nom} ({p.categorie === "plat" ? "Plat" : "Boisson"}) — Stock : {p.stock}
+                    <option key={p.id} value={p.id} className="bg-[#111815] text-[#e6d5b8]">
+                      {p.nom} — Stock : {p.stock}
                     </option>
                   ))}
                 </select>
@@ -123,21 +126,23 @@ export default function NouveauRestockForm({ produits }: { produits: Produit[] }
 
               {/* Quantité d'items */}
               <div className="w-full sm:w-32">
-                <label className="block text-xs text-white/40 mb-1.5 font-medium">Quantité</label>
+                <label className="block text-xs text-[#c5a059] mb-1.5 font-medium uppercase tracking-wider">
+                  Quantité
+                </label>
                 <input
                   type="number"
                   min="1"
                   value={ligne.quantite}
                   onChange={(e) => handleChangeLigne(index, "quantite", parseInt(e.target.value) || 0)}
-                  className="w-full bg-[#111122] border border-white/10 rounded-lg p-2.5 text-white text-sm focus:outline-none focus:border-white/20 transition-colors"
+                  className="w-full bg-[#111815] border border-[#c5a059]/20 rounded-lg p-2.5 text-[#e6d5b8] text-sm focus:outline-none focus:border-[#c5a059]/60 transition-colors"
                   required
                 />
               </div>
 
               {/* Valeur indicative de la ligne */}
               <div className="w-full sm:w-32 text-left sm:text-right py-2 sm:py-0">
-                <span className="block text-xs text-white/30 mb-1">Coût indicatif</span>
-                <span className="text-sm font-medium text-white/80">
+                <span className="block text-xs text-[#c5a059]/70 mb-1">Coût indicatif</span>
+                <span className="text-sm font-serif font-semibold text-[#e6d5b8]">
                   {produitSelectionne ? `$${(produitSelectionne.prixAchat * ligne.quantite).toFixed(0)}` : "$0"}
                 </span>
               </div>
@@ -147,7 +152,7 @@ export default function NouveauRestockForm({ produits }: { produits: Produit[] }
                 <button
                   type="button"
                   onClick={() => supprimerLigne(index)}
-                  className="text-xs text-red-400/60 hover:text-red-400 px-3 h-10 rounded-lg hover:bg-red-500/5 border border-transparent hover:border-red-500/10 transition-colors w-full sm:w-auto"
+                  className="text-xs text-amber-400/60 hover:text-amber-400 px-3 h-10 rounded-lg hover:bg-amber-500/5 border border-transparent hover:border-amber-500/20 transition-colors w-full sm:w-auto"
                 >
                   Supprimer
                 </button>
@@ -159,30 +164,32 @@ export default function NouveauRestockForm({ produits }: { produits: Produit[] }
         <button
           type="button"
           onClick={ajouterLigne}
-          className="flex items-center gap-2 bg-[#2a2250] hover:bg-[#342b6e] border border-[#3d3580] text-[#c4bbff] text-xs font-medium px-4 py-2 rounded-lg transition-colors mt-2"
+          className="flex items-center gap-2 bg-[#1b3026]/50 hover:bg-[#1b3026] border border-[#c5a059]/30 hover:border-[#c5a059] text-[#e6d5b8] text-xs font-medium px-4 py-2 rounded-lg transition-colors mt-2"
         >
           + Ajouter un produit
         </button>
       </div>
 
-      {/* Footer de validation nettoyé de Gringotts */}
-      <div className="bg-[#16162a] border border-white/10 rounded-xl p-6 flex flex-col sm:flex-row gap-4 justify-between items-center">
+      {/* Footer de validation */}
+      <div className="backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-6 flex flex-col sm:flex-row gap-4 justify-between items-center shadow-xl relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+        
         <div>
-          <span className="text-xs text-white/40 block mb-0.5">Valeur totale de la commande</span>
-          <span className="text-2xl font-semibold text-[#c4bbff]">${valeurTotalRestock.toFixed(0)}</span>
+          <span className="text-xs text-[#c5a059]/70 block mb-0.5 uppercase tracking-wider">Valeur totale de la commande</span>
+          <span className="text-2xl font-serif font-semibold text-emerald-400">${valeurTotalRestock.toFixed(0)}</span>
         </div>
         
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <Link
             href="/dashboard/stock"
-            className="text-sm text-white/40 hover:text-white px-4 py-2.5 rounded-lg hover:bg-white/5 transition-colors text-center w-full sm:w-auto"
+            className="text-sm text-[#e6d5b8]/60 hover:text-[#e6d5b8] border border-[#c5a059]/20 hover:border-[#c5a059]/40 px-4 py-2.5 rounded-lg transition-colors text-center w-full sm:w-auto"
           >
             Annuler
           </Link>
           <button
             type="submit"
             disabled={loading}
-            className="bg-emerald-600 hover:bg-emerald-500 disabled:bg-emerald-800 disabled:opacity-50 text-white text-sm font-medium px-6 py-2.5 rounded-lg transition-colors text-center w-full sm:w-auto shadow-lg shadow-emerald-900/20"
+            className="bg-[#1b3026] hover:bg-[#233d31] border border-[#c5a059]/40 text-[#f3e9d2] text-sm font-medium px-6 py-2.5 rounded-lg transition-all shadow-inner disabled:opacity-50 text-center w-full sm:w-auto"
           >
             {loading ? "Mise à jour..." : "Confirmer le Restock"}
           </button>

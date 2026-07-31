@@ -12,44 +12,72 @@ export default async function RapportsPage() {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
+      {/* En-tête */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#c5a059]/20">
         <div>
-          <h1 className="text-2xl font-medium text-white">Rapports d&apos;Observation</h1>
-          <p className="text-white/40 text-sm mt-1">Notes de terrain, expéditions naturalistes et rapports magizoologiques</p>
+          <h1 className="text-2xl font-bold tracking-wide text-[#e6d5b8] flex items-center gap-3 font-serif">
+            <span>📖</span> Rapports d&apos;Observation
+          </h1>
+          <p className="text-xs text-[#c5a059]/70 mt-1 italic">
+            Notes de terrain, expéditions naturalistes et comptes-rendus magizoologiques
+          </p>
         </div>
+
         <Link
           href="/dashboard/rapports/nouveau"
-          className="bg-[#2a2250] hover:bg-[#342b6e] border border-[#3d3580] text-[#c4bbff] text-sm font-medium px-4 py-2.5 rounded-lg transition-colors"
+          className="inline-flex items-center justify-center gap-2 bg-linear-to-r from-amber-800 to-amber-950 hover:from-amber-700 hover:to-amber-900 border border-[#c5a059]/50 text-[#f3e9d2] text-sm font-semibold px-4 py-2.5 rounded-xl transition-all shadow-lg shadow-black/40 active:scale-[0.98]"
         >
-          + Rédiger un rapport
+          <span className="text-base leading-none">✍️</span>
+          <span>Rédiger un rapport</span>
         </Link>
       </div>
 
+      {/* Liste des Rapports */}
       <div className="space-y-4">
         {rapports.map((r) => (
-          <div key={r.id} className="bg-[#16162a] border border-white/10 rounded-xl p-6 space-y-3">
-            <div className="flex justify-between items-start">
+          <div
+            key={r.id}
+            className="bg-[#0a0e0c]/60 border border-[#c5a059]/25 rounded-xl p-6 space-y-3 shadow-xl transition-all hover:border-[#c5a059]/40"
+          >
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
               <div>
-                <span className="text-xs text-white/40">
+                <span className="text-xs text-[#c5a059]/70 italic">
                   {fmtDate(r.dateObservation, { day: "2-digit", month: "2-digit", year: "numeric" })}
                   {" · par "}
-                  <strong className="text-[#c4bbff]">{r.employe.prenom} {r.employe.nom}</strong>
+                  <strong className="text-[#e6d5b8] font-medium font-serif">
+                    {r.employe.prenom} {r.employe.nom}
+                  </strong>
                   {r.lieu && ` (${r.lieu})`}
                 </span>
-                <h2 className="text-lg font-medium text-white mt-1">{r.titre}</h2>
+                <h2 className="text-lg font-serif font-medium text-[#e6d5b8] mt-1">{r.titre}</h2>
               </div>
-              <div className="flex gap-2">
-                {r.espece && <span className="text-xs px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">Espèce : {r.espece.nom}</span>}
-                {r.animal && <span className="text-xs px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">Animal : {r.animal.nom}</span>}
+
+              {/* Badges d'association */}
+              <div className="flex flex-wrap gap-2 shrink-0">
+                {r.espece && (
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-[#1b3026] text-[#e6d5b8] border border-[#c5a059]/30 font-medium">
+                    Espèce : {r.espece.nom}
+                  </span>
+                )}
+                {r.animal && (
+                  <span className="text-xs px-2.5 py-1 rounded-full bg-amber-950/60 text-amber-300 border border-amber-500/30 font-medium">
+                    Specimen : {r.animal.nom}
+                  </span>
+                )}
               </div>
             </div>
-            <p className="text-sm text-white/80 whitespace-pre-wrap bg-black/20 p-4 rounded-lg border border-white/5">{r.contenu}</p>
+
+            {/* Contenu façon parchemin / note de terrain */}
+            <p className="text-sm text-[#e6d5b8]/80 whitespace-pre-wrap bg-[#0a0e0c]/80 p-4 rounded-lg border border-[#c5a059]/15 font-sans leading-relaxed">
+              {r.contenu}
+            </p>
           </div>
         ))}
 
+        {/* État vide */}
         {rapports.length === 0 && (
-          <div className="text-center py-16 text-white/30 bg-[#16162a] border border-white/10 rounded-xl">
-            Aucun rapport d&apos;observation rédigé.
+          <div className="text-center py-16 text-[#e6d5b8]/40 bg-[#0a0e0c]/60 border border-[#c5a059]/20 rounded-xl italic">
+            Aucun rapport d&apos;observation consignations au registre.
           </div>
         )}
       </div>

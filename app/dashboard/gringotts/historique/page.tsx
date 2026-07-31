@@ -28,7 +28,6 @@ export default async function HistoriqueGringottsPage({ searchParams }: PageProp
     whereClause.typeTransaction = currentType;
   }
   if (currentEmployeId) {
-    // Correction ici : Convertir la string "7" en Int 7 pour que Prisma soit content
     const parsedId = parseInt(currentEmployeId, 10);
     if (!isNaN(parsedId)) {
       whereClause.employeId = parsedId;
@@ -37,11 +36,11 @@ export default async function HistoriqueGringottsPage({ searchParams }: PageProp
   if (currentSearch) {
     whereClause.description = {
       contains: currentSearch,
-      mode: 'insensitive', // Ignore les majuscules/minuscules
+      mode: 'insensitive',
     };
   }
 
-  // 3. Charger TOUTES les transactions filtrées (On en prend 200 par sécurité au lieu de bloquer à 20)
+  // 3. Charger TOUTES les transactions filtrées
   const transactions = await prisma.transactionGringotts.findMany({
     where: whereClause,
     orderBy: { createdAt: "desc" },
@@ -53,56 +52,58 @@ export default async function HistoriqueGringottsPage({ searchParams }: PageProp
     <div>
       <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <Link href="/dashboard/gringotts" className="text-xs text-white/40 hover:text-white transition-colors mb-2 inline-block">
+          <Link href="/dashboard/gringotts" className="text-xs text-[#c5a059]/70 hover:text-[#e6d5b8] transition-colors mb-2 inline-block">
             ← Retour aux finances
           </Link>
-          <h1 className="text-2xl font-medium text-white">Historique complet</h1>
+          <h1 className="text-2xl font-serif font-medium text-[#e6d5b8]">Historique complet</h1>
         </div>
-        <div className="text-sm text-white/40">
+        <div className="text-sm text-[#c5a059]/70 italic">
           {transactions.length} transaction(s) trouvée(s)
         </div>
       </div>
 
-      {/* BARRE DE FILTRES (Formulaire de méthode GET qui met à jour l'URL) */}
-      <form method="GET" className="grid grid-cols-1 sm:grid-cols-4 gap-3 mb-6 bg-[#16162a] border border-white/10 rounded-xl p-4">
+      {/* BARRE DE FILTRES */}
+      <form method="GET" className="grid grid-cols-1 sm:grid-cols-4 gap-3 mb-6 backdrop-blur-md bg-[#111815]/75 border border-[#c5a059]/30 rounded-xl p-4 shadow-xl relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#c5a059]/30" />
+        
         {/* Recherche textuelle */}
         <div>
-          <label className="block text-xs text-white/40 mb-1">Recherche</label>
+          <label className="block text-xs text-[#c5a059] font-medium uppercase tracking-wider mb-1">Recherche</label>
           <input 
             type="text" 
             name="search"
             defaultValue={currentSearch}
             placeholder="Description label" 
-            className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#a89af9]"
+            className="w-full bg-[#111815] border border-[#c5a059]/20 rounded-lg px-3 py-2 text-sm text-[#e6d5b8] placeholder-[#e6d5b8]/20 focus:outline-none focus:border-[#c5a059]/60 transition-colors"
           />
         </div>
 
         {/* Filtre par Type */}
         <div>
-          <label className="block text-xs text-white/40 mb-1">Type de mouvement</label>
+          <label className="block text-xs text-[#c5a059] font-medium uppercase tracking-wider mb-1">Type de mouvement</label>
           <select 
             name="type" 
             defaultValue={currentType}
-            className="w-full bg-[#16162a] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#a89af9]"
+            className="w-full bg-[#111815] border border-[#c5a059]/20 rounded-lg px-3 py-2 text-sm text-[#e6d5b8] focus:outline-none focus:border-[#c5a059]/60 transition-colors"
           >
-            <option value="">Tous les types</option>
+            <option value="" className="bg-[#111815] text-[#e6d5b8]/50">Tous les types</option>
             {TYPES_TRANSACTION.map((type) => (
-              <option key={type} value={type}>{type}</option>
+              <option key={type} value={type} className="bg-[#111815] text-[#e6d5b8]">{type}</option>
             ))}
           </select>
         </div>
 
         {/* Filtre par Employé */}
         <div>
-          <label className="block text-xs text-white/40 mb-1">Par Employé</label>
+          <label className="block text-xs text-[#c5a059] font-medium uppercase tracking-wider mb-1">Par Employé</label>
           <select 
             name="employeId" 
             defaultValue={currentEmployeId}
-            className="w-full bg-[#16162a] border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#a89af9]"
+            className="w-full bg-[#111815] border border-[#c5a059]/20 rounded-lg px-3 py-2 text-sm text-[#e6d5b8] focus:outline-none focus:border-[#c5a059]/60 transition-colors"
           >
-            <option value="">Tous les employés</option>
+            <option value="" className="bg-[#111815] text-[#e6d5b8]/50">Tous les employés</option>
             {employes.map((e) => (
-              <option key={e.id} value={e.id}>{e.prenom} {e.nom}</option>
+              <option key={e.id} value={e.id} className="bg-[#111815] text-[#e6d5b8]">{e.prenom} {e.nom}</option>
             ))}
           </select>
         </div>
@@ -111,14 +112,14 @@ export default async function HistoriqueGringottsPage({ searchParams }: PageProp
         <div className="flex items-end gap-2">
           <button 
             type="submit" 
-            className="flex-1 bg-[#2a2250] hover:bg-[#3d3580] border border-[#3d3580] text-[#a89af9] text-sm rounded-lg py-2 font-medium transition-colors"
+            className="flex-1 bg-[#1b3026] hover:bg-[#233d31] border border-[#c5a059]/40 text-[#f3e9d2] text-sm font-medium rounded-lg py-2 transition-all shadow-inner"
           >
             Filtrer
           </button>
           {(currentType || currentEmployeId || currentSearch) && (
             <Link 
               href="/dashboard/gringotts/historique" 
-              className="px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm rounded-lg text-center transition-colors"
+              className="px-3 py-2 bg-black/20 hover:bg-black/40 border border-[#c5a059]/20 text-[#e6d5b8]/70 hover:text-[#e6d5b8] text-sm rounded-lg text-center transition-colors"
             >
               Reset
             </Link>

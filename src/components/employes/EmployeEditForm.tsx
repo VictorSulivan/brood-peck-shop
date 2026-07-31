@@ -47,30 +47,44 @@ export default function EmployeEditForm({ employe }: { employe: EmployeForm }) {
   }
 
   return (
-    <div className="bg-[#16162a] border border-white/10 rounded-xl p-5 space-y-4">
-      <p className="text-xs text-white/40 uppercase tracking-widest">Modifier</p>
+    <div className="bg-[#0a0e0c]/60 border border-[#c5a059]/25 rounded-xl p-5 space-y-4 shadow-xl">
+      <p className="text-xs text-[#c5a059] uppercase tracking-wider font-semibold font-serif border-b border-[#c5a059]/20 pb-2">
+        ✏️ Modifier la fiche
+      </p>
 
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Prénom</label>
-          <input value={form.prenom} onChange={(e) => set("prenom", e.target.value)} className="input-dark" />
+          <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">Prénom</label>
+          <input
+            value={form.prenom}
+            onChange={(e) => set("prenom", e.target.value)}
+            className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm focus:outline-none focus:border-[#c5a059] transition-colors"
+          />
         </div>
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Nom</label>
-          <input value={form.nom} onChange={(e) => set("nom", e.target.value)} className="input-dark" />
+          <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">Nom</label>
+          <input
+            value={form.nom}
+            onChange={(e) => set("nom", e.target.value)}
+            className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm focus:outline-none focus:border-[#c5a059] transition-colors"
+          />
         </div>
       </div>
 
       <div>
-        <label className="block text-xs text-white/40 mb-1.5">Rôle</label>
+        <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">Rôle</label>
         <div className="grid grid-cols-2 gap-2">
           {ROLES_EMPLOYE.map((r) => (
-            <button key={r} type="button" onClick={() => set("role", r)}
-              className={`py-2 rounded-lg text-sm border transition-colors ${
+            <button
+              key={r}
+              type="button"
+              onClick={() => set("role", r)}
+              className={`py-2 px-2 rounded-lg text-xs capitalize border transition-colors ${
                 form.role === r
-                  ? "bg-[#2a2250] border-[#3d3580] text-[#c4bbff]"
-                  : "bg-[#0f0f1a] border-white/10 text-white/40 hover:text-white hover:border-white/20"
-              }`}>
+                  ? "bg-[#1b3026] border-[#c5a059] text-[#e6d5b8] font-medium"
+                  : "bg-[#0a0e0c]/80 border-[#c5a059]/20 text-[#e6d5b8]/60 hover:text-[#e6d5b8] hover:border-[#c5a059]/40"
+              }`}
+            >
               {r.replace("_", " ")}
             </button>
           ))}
@@ -78,26 +92,40 @@ export default function EmployeEditForm({ employe }: { employe: EmployeForm }) {
       </div>
 
       <div>
-        <label className="block text-xs text-white/40 mb-1.5">Salaire (Mornilles)</label>
-        <input type="number" value={form.salaire}
+        <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">
+          Salaire (Mornilles)
+        </label>
+        <input
+          type="number"
+          value={form.salaire}
           onChange={(e) => set("salaire", e.target.value)}
-          className="input-dark" placeholder="5000" />
+          className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm focus:outline-none focus:border-[#c5a059] transition-colors"
+          placeholder="5000"
+        />
       </div>
 
       <div>
-        <label className="block text-xs text-white/40 mb-1.5">Notes</label>
-        <textarea rows={2} value={form.notes}
+        <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">
+          Notes confidentielles
+        </label>
+        <textarea
+          rows={2}
+          value={form.notes}
           onChange={(e) => set("notes", e.target.value)}
-          className="input-dark resize-none" />
+          className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm focus:outline-none focus:border-[#c5a059] transition-colors resize-none"
+        />
       </div>
 
-      <button onClick={handleSave} disabled={loading}
-        className={`w-full text-sm font-medium py-2.5 rounded-lg border transition-colors ${
+      <button
+        onClick={handleSave}
+        disabled={loading}
+        className={`w-full text-sm font-semibold py-2.5 rounded-lg border transition-all shadow-md active:scale-[0.99] ${
           saved
-            ? "bg-green-500/10 border-green-500/20 text-green-400"
-            : "bg-[#2a2250] hover:bg-[#342b6e] border-[#3d3580] text-[#c4bbff] disabled:opacity-50"
-        }`}>
-        {saved ? "✓ Sauvegardé" : loading ? "Sauvegarde..." : "Sauvegarder"}
+            ? "bg-emerald-950/60 border-emerald-500/40 text-emerald-300"
+            : "bg-[#1b3026] hover:bg-[#233d31] border-[#c5a059]/40 text-[#f3e9d2] disabled:opacity-50"
+        }`}
+      >
+        {saved ? "✓ Fiche mise à jour" : loading ? "Sauvegarde..." : "Mettre à jour la fiche"}
       </button>
     </div>
   );

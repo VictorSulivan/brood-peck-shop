@@ -14,15 +14,29 @@ type Extra = { label: string; montant: number };
 type SelectedClient = { clientId: number; nbPersonnes: number; commentaire: string };
 type ConsoItem = { produitId: number; nom: string; quantite: number; prixUnitaire: number };
 
-// --- COMPOSANT CONTENEUR PRINCIPAL ---
-export default function NouvelEvenementForm({ employes, clients: initialClients, produits }: { employes: Employe[]; clients: Client[]; produits: Produit[] }) {
+export default function NouvelEvenementForm({
+  employes,
+  clients: initialClients,
+  produits,
+}: {
+  employes: Employe[];
+  clients: Client[];
+  produits: Produit[];
+}) {
   const router = useRouter();
   const [clients, setClients] = useState<Client[]>(initialClients);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false);
 
-  const [form, setForm] = useState({ titre: "", type: "reservation", dateDebut: "", dateFin: "", description: "", responsableId: "" });
+  const [form, setForm] = useState({
+    titre: "",
+    type: "reservation",
+    dateDebut: "",
+    dateFin: "",
+    description: "",
+    responsableId: "",
+  });
   const [selectedEmployes, setSelectedEmployes] = useState<number[]>([]);
   const [selectedClients, setSelectedClients] = useState<SelectedClient[]>([]);
   const [conso, setConso] = useState<ConsoItem[]>([]);
@@ -31,11 +45,13 @@ export default function NouvelEvenementForm({ employes, clients: initialClients,
   const handleFormChange = (key: string, val: string) => setForm((f) => ({ ...f, [key]: val }));
 
   const handleToggleEmploye = (id: number) => {
-    setSelectedEmployes((prev) => prev.includes(id) ? prev.filter((e) => e !== id) : [...prev, id]);
+    setSelectedEmployes((prev) => (prev.includes(id) ? prev.filter((e) => e !== id) : [...prev, id]));
   };
 
   const handleSelectClient = (id: number) => {
-    setSelectedClients((prev) => prev.some((c) => c.clientId === id) ? prev : [...prev, { clientId: id, nbPersonnes: 1, commentaire: "" }]);
+    setSelectedClients((prev) =>
+      prev.some((c) => c.clientId === id) ? prev : [...prev, { clientId: id, nbPersonnes: 1, commentaire: "" }]
+    );
   };
 
   const handleClientCreated = (c: Client) => {
@@ -52,39 +68,92 @@ export default function NouvelEvenementForm({ employes, clients: initialClients,
   };
 
   async function handleSubmit() {
-    if (!form.titre || !form.dateDebut) return setError("Titre et date requis");
-    setLoading(true); setError("");
+    if (!form.titre || !form.dateDebut) return setError("Veuillez renseigner le titre et la date de début.");
+    setLoading(true);
+    setError("");
     const res = await fetch("/api/evenements", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...form, responsableId: form.responsableId || null, employeIds: selectedEmployes, clientIds: selectedClients, consommations: conso, extras }),
+      body: JSON.stringify({
+        ...form,
+        responsableId: form.responsableId || null,
+        employeIds: selectedEmployes,
+        clientIds: selectedClients,
+        consommations: conso,
+        extras,
+      }),
     });
-    if (res.ok) { router.push("/dashboard/calendrier"); router.refresh(); } 
-    else { const data = await res.json(); setError(data.error ?? "Erreur"); setLoading(false); }
+    if (res.ok) {
+      router.push("/dashboard/calendrier");
+      router.refresh();
+    } else {
+      const data = await res.json();
+      setError(data.error ?? "Une erreur s'est produite lors de la création.");
+      setLoading(false);
+    }
   }
 
   return (
     <>
       {showModal && <NouveauClientModal onClose={() => setShowModal(false)} onCreated={handleClientCreated} />}
 
-      <div className="space-y-5">
+      <div className="space-y-6">
         <FormInformations form={form} onChange={handleFormChange} />
 
-        <FormEquipe employes={employes} responsableId={form.responsableId} selectedEmployes={selectedEmployes} onResponsableChange={(id) => handleFormChange("responsableId", id)} onToggleEmploye={handleToggleEmploye} />
+        <FormEquipe
+          employes={employes}
+          responsableId={form.responsableId}
+          selectedEmployes={selectedEmployes}
+          onResponsableChange={(id) => handleFormChange("responsableId", id)}
+          onToggleEmploye={handleToggleEmploye}
+        />
 
-        <FormClients clients={clients} selectedClients={selectedClients} onSelectClient={handleSelectClient} onRemoveClient={(id) => setSelectedClients((p) => p.filter((c) => c.clientId !== id))} onUpdateNbPersonnes={(id, count) => setSelectedClients((p) => p.map((c) => c.clientId === id ? { ...c, nbPersonnes: count } : c))} onOpenModal={() => setShowModal(true)} />
+        <FormClients
+          clients={clients}
+          selectedClients={selectedClients}
+          onSelectClient={handleSelectClient}
+          onRemoveClient={(id) => setSelectedClients((p) => p.filter((c) => c.clientId !== id))}
+          onUpdateNbPersonnes={(id, count) =>
+            setSelectedClients((p) => p.map((c) => (c.clientId === id ? { ...c, nbPersonnes: count } : c)))
+          }
+          onOpenModal={() => setShowModal(true)}
+        />
 
-        <FormConsommations produits={produits} conso={conso} onToggleProduit={handleToggleProduit} onUpdateConsoQte={(id, q) => setConso((p) => p.map((c) => c.produitId === id ? { ...c, quantite: q } : c))} />
+        <FormConsommations
+          produits={produits}
+          conso={conso}
+          onToggleProduit={handleToggleProduit}
+          onUpdateConsoQte={(id, q) =>
+            setConso((p) => p.map((c) => (c.produitId === id ? { ...c, quantite: q } : c)))
+          }
+        />
 
-        <FormExtras extras={extras} onAddExtra={(label, montant) => setExtras((p) => [...p, { label, montant }])} onRemoveExtra={(index) => setExtras((p) => p.filter((_, j) => j !== index))} />
+        <FormExtras
+          extras={extras}
+          onAddExtra={(label, montant) => setExtras((p) => [...p, { label, montant }])}
+          onRemoveExtra={(index) => setExtras((p) => p.filter((_, j) => j !== index))}
+        />
 
-        {error && <p className="text-red-400 text-sm">{error}</p>}
+        {error && (
+          <div className="p-3.5 rounded-xl bg-amber-950/40 border border-red-500/30 text-red-300 text-xs italic">
+            ⚠️ {error}
+          </div>
+        )}
 
-        <div className="flex gap-3">
-          <button onClick={handleSubmit} disabled={loading} className="flex-1 bg-[#2a2250] hover:bg-[#342b6e] border border-[#3d3580] text-[#c4bbff] text-sm font-medium py-2.5 rounded-lg transition-colors disabled:opacity-50">
-            {loading ? "Création..." : "Créer l'événement"}
+        {/* Action Buttons */}
+        <div className="flex items-center gap-3 pt-2">
+          <button
+            onClick={handleSubmit}
+            disabled={loading}
+            className="flex-1 bg-linear-to-r from-amber-800 to-amber-950 hover:from-amber-700 hover:to-amber-900 border border-[#c5a059]/50 text-[#f3e9d2] text-sm font-semibold py-3 rounded-xl transition-all shadow-lg shadow-black/40 disabled:opacity-50 active:scale-[0.99]"
+          >
+            {loading ? "Consignation en cours..." : "✨ Enregistrer l'événement"}
           </button>
-          <button type="button" onClick={() => router.back()} className="px-4 text-sm text-white/40 hover:text-white border border-white/10 rounded-lg transition-colors">
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="px-5 text-sm font-medium text-[#e6d5b8]/60 hover:text-[#e6d5b8] bg-[#0a0e0c]/60 border border-[#c5a059]/20 hover:border-[#c5a059]/40 rounded-xl py-3 transition-colors"
+          >
             Annuler
           </button>
         </div>

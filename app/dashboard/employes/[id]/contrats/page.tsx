@@ -16,68 +16,87 @@ export default async function ContratsPage({ params }: { params: Promise<{ id: s
   if (!employe) notFound();
 
   const typeColor: Record<string, string> = {
-    CDI:       "bg-green-500/10 text-green-400 border-green-500/20",
-    "Co-Patron":       "bg-blue-500/10 text-blue-400 border-blue-500/20",
-    Stage:     "bg-orange-500/10 text-orange-400 border-orange-500/20",
-    Patron: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+    CDI:         "bg-emerald-950/60 text-emerald-300 border-emerald-500/30",
+    "Co-Patron": "bg-[#1b3026] text-[#e6d5b8] border-[#c5a059]/40",
+    Stage:       "bg-amber-950/60 text-amber-300 border-amber-500/30",
+    Patron:      "bg-amber-900/80 text-amber-200 border-amber-500/50",
   };
 
   return (
     <div className="max-w-2xl space-y-6">
-      <div className="flex items-center gap-3 mb-8">
-        <Link href={`/dashboard/employes/${id}`}
-          className="text-white/30 hover:text-white text-sm transition-colors">
+      {/* En-tête avec navigation breadcrumb */}
+      <div className="flex items-center gap-3 pb-4 border-b border-[#c5a059]/20">
+        <Link
+          href={`/dashboard/employes/${id}`}
+          className="text-[#c5a059]/70 hover:text-[#e6d5b8] text-sm transition-colors font-serif"
+        >
           ← {employe.prenom} {employe.nom}
         </Link>
-        <span className="text-white/20">/</span>
-        <h1 className="text-2xl font-medium text-white">Contrats</h1>
+        <span className="text-[#c5a059]/30">/</span>
+        <h1 className="text-2xl font-bold font-serif text-[#e6d5b8] flex items-center gap-2">
+          <span>📜</span> Registre des Contrats
+        </h1>
       </div>
 
       <NouveauContratForm employeId={employe.id} />
 
-      <div className="bg-[#16162a] border border-white/10 rounded-xl overflow-hidden">
-        <div className="px-5 py-4 border-b border-white/10">
-          <p className="text-xs text-white/40 uppercase tracking-widest">Historique des contrats</p>
+      <div className="bg-[#0a0e0c]/60 border border-[#c5a059]/25 rounded-xl overflow-hidden shadow-xl">
+        <div className="px-5 py-4 border-b border-[#c5a059]/20 bg-[#0a0e0c]/80">
+          <p className="text-xs text-[#c5a059] uppercase tracking-wider font-semibold font-serif">
+            Historique des contrats signés
+          </p>
         </div>
 
         {employe.contrats.length === 0 ? (
-          <div className="text-center py-12 text-white/30 text-sm">Aucun contrat enregistré.</div>
+          <div className="text-center py-12 text-[#e6d5b8]/40 text-sm italic font-serif">
+            Aucun contrat enregistré pour cet employé.
+          </div>
         ) : (
-          <div className="divide-y divide-white/5">
+          <div className="divide-y divide-[#c5a059]/10">
             {employe.contrats.map((c) => (
-              <div key={c.id} className="px-5 py-4">
+              <div key={c.id} className="px-5 py-4 hover:bg-[#1b3026]/20 transition-colors">
                 <div className="flex items-start justify-between gap-4">
                   <div className="space-y-1.5">
                     <div className="flex items-center gap-2">
-                      <span className={`text-xs px-2 py-1 rounded-full border ${typeColor[c.typeContrat] ?? "bg-white/5 text-white/40 border-white/10"}`}>
+                      <span
+                        className={`text-xs px-2.5 py-0.5 rounded-full border font-medium ${
+                          typeColor[c.typeContrat] ?? "bg-[#0a0e0c] text-[#e6d5b8]/60 border-[#c5a059]/20"
+                        }`}
+                      >
                         {c.typeContrat}
                       </span>
                       {c.estActif && (
-                        <span className="text-xs bg-green-500/10 text-green-400 border border-green-500/20 px-2 py-1 rounded-full">
+                        <span className="text-xs bg-emerald-950/60 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-medium">
                           Actif
                         </span>
                       )}
                     </div>
-                    <div className="flex items-center gap-3 text-xs text-white/40">
+                    <div className="flex items-center gap-3 text-xs text-[#c5a059]/70">
                       <span>
-                        {fmtDate(c.dateDebut, { day: "2-digit", month: "short", year: "numeric" })}
-                        {c.dateFin && ` → ${fmtDate(c.dateFin, { day: "2-digit", month: "short", year: "numeric" })}`}
+                        Du {fmtDate(c.dateDebut, { day: "2-digit", month: "short", year: "numeric" })}
+                        {c.dateFin && ` au ${fmtDate(c.dateFin, { day: "2-digit", month: "short", year: "numeric" })}`}
                       </span>
                     </div>
-                    <div className="flex items-center gap-4 text-sm">
-                      {c.salaire && <span className="text-white">${c.salaire.toLocaleString()}/mois</span>}
-                      {c.pourcentagePrime && <span className="text-[#a89af9]">{c.pourcentagePrime}% prime</span>}
+                    <div className="flex items-center gap-4 text-sm font-serif">
+                      {c.salaire && (
+                        <span className="text-[#e6d5b8] font-medium">
+                          {c.salaire.toLocaleString("fr-FR")} Mornilles / mois
+                        </span>
+                      )}
+                      {c.pourcentagePrime && (
+                        <span className="text-amber-400 font-medium">{c.pourcentagePrime}% prime</span>
+                      )}
                     </div>
                     {c.commentaire && (
-                      <p className="text-white/30 text-xs">{c.commentaire}</p>
+                      <p className="text-[#e6d5b8]/40 text-xs italic">{c.commentaire}</p>
                     )}
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     <Link
                       href={`/dashboard/employes/${id}/contrats/${c.id}`}
-                      className="text-xs text-[#a89af9] hover:underline px-2 py-1 rounded transition-colors"
+                      className="text-xs text-[#e6d5b8] bg-[#1b3026] hover:bg-[#233d31] border border-[#c5a059]/30 px-2.5 py-1 rounded-lg transition-colors font-medium"
                     >
-                      Voir PDF
+                      Consulter le Parchemin (PDF)
                     </Link>
                     <ContratActions id={c.id} estActif={c.estActif} />
                   </div>

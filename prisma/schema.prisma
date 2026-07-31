@@ -26,11 +26,6 @@ enum TypeClient {
   entreprise
 }
 
-enum CategorieProduit {
-  plat
-  boisson
-}
-
 enum StatutVente {
   en_cours
   validee
@@ -199,7 +194,6 @@ model Contrat {
 model Produit {
   id          Int                  @id @default(autoincrement())
   nom         String
-  categorie   CategorieProduit
   stock       Int                  @default(0)
   description String?
   prixAchat   Float

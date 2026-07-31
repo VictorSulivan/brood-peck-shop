@@ -26,6 +26,7 @@ export default function NouvelAnimalPage() {
   }
 
   async function handleSubmit() {
+    if (!form.especeId) return setError("Veuillez sélectionner une espèce.");
     setLoading(true);
     setError("");
     const res = await fetch("/api/animaux", {
@@ -47,68 +48,80 @@ export default function NouvelAnimalPage() {
   }
 
   return (
-    <div className="p-8 max-w-2xl mx-auto w-full">
-      <div className="mb-6 flex items-center justify-between">
+    <div className="p-4 sm:p-8 max-w-2xl mx-auto w-full">
+      <div className="mb-6 flex items-center justify-between border-b border-[#c5a059]/20 pb-4">
         <div>
-          <h1 className="text-xl font-semibold text-white">Enregistrer un animal</h1>
-          <p className="text-white/40 text-xs mt-0.5">Ajouter une créature au cheptel de l&apos;entreprise</p>
+          <h1 className="text-xl font-serif font-semibold text-[#e6d5b8] flex items-center gap-2">
+            <span>📜</span> Enregistrer un animal
+          </h1>
+          <p className="text-[#c5a059]/70 text-xs mt-0.5 italic">
+            Ajouter une créature au cheptel du domaine
+          </p>
         </div>
         <button
           onClick={() => router.back()}
-          className="text-xs text-white/50 hover:text-white px-3 py-1.5 rounded-lg border border-white/10 hover:bg-white/5 transition-colors"
+          className="text-xs text-[#e6d5b8]/60 hover:text-[#e6d5b8] px-3 py-1.5 rounded-lg border border-[#c5a059]/20 hover:border-[#c5a059]/40 bg-[#0a0e0c]/40 transition-colors"
         >
           ← Retour
         </button>
       </div>
 
-      <div className="bg-[#16162a] border border-white/10 rounded-xl p-6 shadow-xl space-y-4">
+      <div className="bg-[#0a0e0c]/60 border border-[#c5a059]/25 rounded-xl p-6 shadow-xl space-y-4">
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Nom / Surnom de l&apos;animal</label>
+          <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">
+            Nom / Surnom de l&apos;animal
+          </label>
           <input
-            placeholder="ex: Poussin"
+            placeholder="ex: Poussin, Barnabé..."
             value={form.nom}
             onChange={(e) => set("nom", e.target.value)}
-            className="w-full bg-[#0f0f1a] border border-white/10 rounded-lg px-3 py-2 text-white text-sm"
+            className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm placeholder:text-[#e6d5b8]/20 focus:outline-none focus:border-[#c5a059] transition-colors"
           />
         </div>
 
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Espèce</label>
+          <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">
+            Espèce
+          </label>
           <select
             value={form.especeId}
             onChange={(e) => set("especeId", e.target.value)}
-            className="w-full bg-[#0f0f1a] border border-white/10 rounded-lg px-3 py-2 text-white text-sm"
+            className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm focus:outline-none focus:border-[#c5a059] transition-colors"
           >
-            <option value="">-- Choisir une espèce --</option>
+            <option value="" className="bg-[#0a0e0c] text-[#e6d5b8]/40">-- Choisir une espèce --</option>
             {especes.map((esp) => (
-              <option key={esp.id} value={esp.id}>{esp.nom}</option>
+              <option key={esp.id} value={esp.id} className="bg-[#0a0e0c] text-[#e6d5b8]">
+                {esp.nom}
+              </option>
             ))}
           </select>
         </div>
 
         <div>
-          <label className="block text-xs text-white/40 mb-1.5">Santé</label>
+          <label className="block text-xs text-[#c5a059] uppercase tracking-wider mb-1.5 font-medium">
+            Santé / État général
+          </label>
           <input
             placeholder="ex: Bonne, Blessée..."
             value={form.sante}
             onChange={(e) => set("sante", e.target.value)}
-            className="w-full bg-[#0f0f1a] border border-white/10 rounded-lg px-3 py-2 text-white text-sm"
+            className="w-full bg-[#0a0e0c]/80 border border-[#c5a059]/30 rounded-lg px-3 py-2 text-[#e6d5b8] text-sm placeholder:text-[#e6d5b8]/20 focus:outline-none focus:border-[#c5a059] transition-colors"
           />
         </div>
 
-        {error && <p className="text-red-400 text-sm">{error}</p>}
+        {error && <p className="text-red-400 text-xs italic">⚠️ {error}</p>}
 
         <div className="flex gap-3 pt-2">
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="flex-1 bg-[#2a2250] hover:bg-[#342b6e] border border-[#3d3580] text-[#c4bbff] text-sm font-medium py-2.5 rounded-lg transition-colors disabled:opacity-50"
+            className="flex-1 bg-[#1b3026] hover:bg-[#233d31] border border-[#c5a059]/40 text-[#f3e9d2] text-sm font-semibold py-2.5 rounded-lg transition-all shadow-md active:scale-[0.99] disabled:opacity-50"
           >
-            {loading ? "Enregistrement..." : "Enregistrer l'animal"}
+            {loading ? "Consignation..." : "✨ Enregistrer au cheptel"}
           </button>
           <button
             onClick={() => router.back()}
-            className="px-4 text-sm text-white/40 hover:text-white border border-white/10 rounded-lg transition-colors"
+            className="px-4 text-sm text-[#e6d5b8]/60 hover:text-[#e6d5b8] border border-[#c5a059]/20 hover:border-[#c5a059]/40 rounded-lg transition-colors"
           >
             Annuler
           </button>

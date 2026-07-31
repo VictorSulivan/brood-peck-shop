@@ -8,7 +8,6 @@ const { auth } = NextAuth(authConfig);
 const PUBLIC_ROUTES = ["/login"];
 
 const ROLE_ROUTES: Record<string, string[]> = {
-  "/admin": ["admin"],
   "/dashboard": ["admin", "patron", "co_patron", "employe"],
 };
 
